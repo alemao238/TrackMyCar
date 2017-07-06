@@ -15,8 +15,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.reebrandogmail.trackmycar.fragments.HistoryFragment;
 import com.reebrandogmail.trackmycar.fragments.MainFragment;
 import com.reebrandogmail.trackmycar.fragments.MapsActivity;
+import com.reebrandogmail.trackmycar.fragments.ProfileFragment;
+import com.reebrandogmail.trackmycar.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -33,8 +36,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 swapFragments(R.id.fragment_main, new MapsActivity());
-                /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
             }
         });
 
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Starts main fragment
-        swapFragments(R.id.content_main, new MainFragment());
+        swapFragments(R.id.fragment_main, new MainFragment());
 
     }
 
@@ -90,16 +91,26 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_profile) {
-            // Handle the camera action
-        } else if (id == R.id.nav_location) {
-
-        } else if (id == R.id.nav_history) {
-
-        } else if (id == R.id.nav_settings) {
-
-        } else if (id == R.id.nav_logout) {
-
+        switch (id){
+            case R.id.nav_profile:
+                swapFragments(R.id.fragment_main, new ProfileFragment());
+                break;
+            case R.id.nav_location:
+                swapFragments(R.id.fragment_main, new MapsActivity());
+                break;
+            case R.id.nav_history:
+                swapFragments(R.id.fragment_main, new HistoryFragment());
+                break;
+            case R.id.nav_settings:
+                swapFragments(R.id.fragment_main, new SettingsFragment());
+                break;
+            case R.id.nav_logout:
+                Snackbar.make(this.findViewById(R.id.content_main), "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                break;
+            default:
+                swapFragments(R.id.fragment_main, new MainFragment());
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
