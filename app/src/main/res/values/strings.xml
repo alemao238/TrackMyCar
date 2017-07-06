@@ -6,4 +6,6 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
+    <string name="track_my_car">Track My Car</string>
+    <string name="app_message">Instant car tracking app.</string>
 </resources>

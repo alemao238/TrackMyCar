@@ -3,6 +3,7 @@ package com.reebrandogmail.trackmycar;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -31,11 +32,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MapsActivity mapsActivity = new MapsActivity();
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.fragment_main, mapsActivity);
-                transaction.disallowAddToBackStack();
-                transaction.commit();
+                swapFragments(R.id.fragment_main, new MapsActivity());
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
             }
@@ -51,11 +48,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         // Starts main fragment
-        MainFragment mainFragment = new MainFragment();
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.content_main, mainFragment);
-        transaction.disallowAddToBackStack();
-        transaction.commit();
+        swapFragments(R.id.content_main, new MainFragment());
+
     }
 
     @Override
@@ -96,22 +90,28 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_profile) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_location) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_history) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_settings) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_logout) {
 
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    // Generic method for swapping fragments in the activity
+    private void swapFragments(int activity, Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(activity, fragment);
+        transaction.disallowAddToBackStack();
+        transaction.commit();
     }
 }
