@@ -21,6 +21,9 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnUpdate"/>
+        android:textColor="@color/colorPrimaryLight"
+        android:text="update"
+        android:id="@+id/btnUpdate"
+        android:theme="@style/MyButton"/>
 
 </LinearLayout>
