@@ -1,11 +1,15 @@
 package com.reebrandogmail.trackmycar.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,6 +24,7 @@ import butterknife.ButterKnife;
 public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private BroadcastReceiver mReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +34,13 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         ButterKnife.bind(this, view);
+
+        if(getActivity().getIntent() != null) {
+            Intent i = getActivity().getIntent();
+            String remetente = i.getStringExtra("remetente");
+            String mensagem = i.getStringExtra("mensagem");
+            Toast.makeText(view.getContext(), remetente == null && mensagem ==null ? "" : remetente + " : " + mensagem, Toast.LENGTH_SHORT).show();
+        }
 
         return view;
     }
@@ -52,5 +64,34 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         LatLng sydney = new LatLng(51, 0.12);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Welcome to London"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter intentFilter = new IntentFilter(
+                "android.intent.action.SMSRECEBIDO");
+
+        mReceiver = new BroadcastReceiver() {
+
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //extract our message from intent
+                String remetente = intent.getStringExtra("remetente");
+                String mensagem = intent.getStringExtra("mensagem");
+                Toast.makeText(MapsActivity.this.getContext(), remetente == null && mensagem ==null ? "" : remetente + " : " + mensagem, Toast.LENGTH_SHORT).show();
+
+            }
+        };
+        //registering our receiver
+        getActivity().registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //unregister our receiver
+        getActivity().unregisterReceiver(this.mReceiver);
     }
 }
