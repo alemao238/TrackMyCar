@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.reebrandogmail.trackmycar.fragments.AboutFragment;
 import com.reebrandogmail.trackmycar.fragments.HistoryFragment;
 import com.reebrandogmail.trackmycar.fragments.MainFragment;
 import com.reebrandogmail.trackmycar.fragments.MapsActivity;
@@ -130,6 +131,9 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_logout:
                 Snackbar.make(this.findViewById(R.id.content_main), "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                break;
+            case R.id.nav_about:
+                swapFragments(R.id.fragment_main, new AboutFragment());
                 break;
             default:
                 swapFragments(R.id.fragment_main, new MainFragment());
