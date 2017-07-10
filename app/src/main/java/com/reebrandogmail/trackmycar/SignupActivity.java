@@ -1,6 +1,7 @@
 package com.reebrandogmail.trackmycar;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -80,8 +81,10 @@ public class SignupActivity extends AppCompatActivity {
 
 
     public void onSignupSuccess() {
+        Intent intent = new Intent();
+        intent.putExtra("username", _emailText.getText().toString());
         _signupButton.setEnabled(true);
-        setResult(RESULT_OK, null);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
