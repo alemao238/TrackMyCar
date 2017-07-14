@@ -2,7 +2,9 @@ package com.reebrandogmail.trackmycar;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,17 +24,21 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+    private static final String KEEP_CONNECTED = "keep_connected";
 
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
     @BindView(R.id.btn_login) Button _loginButton;
     @BindView(R.id.link_signup) TextView _signupLink;
+    @BindView(R.id.chk_connected) CheckBox _chkConnected;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        skipLogin();
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
@@ -51,7 +58,33 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        _chkConnected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+                if (_chkConnected.isChecked()){
+                    editor.putBoolean(KEEP_CONNECTED, true);
+                    editor.apply();
+                }
+                else {
+                    editor.putBoolean(KEEP_CONNECTED, false);
+                    editor.apply();
+                }
+            }
+        });
+
         requestSmsPermission();
+    }
+
+    public void skipLogin(){
+        SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+        boolean connected = sharedPref.getBoolean(KEEP_CONNECTED, false);
+        if (connected){
+            // skip login
+            _chkConnected.setChecked(true);
+            Toast.makeText(LoginActivity.this, "You are connected", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void login() {
