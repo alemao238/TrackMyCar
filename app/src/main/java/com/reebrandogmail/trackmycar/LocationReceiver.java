@@ -23,7 +23,7 @@ public class LocationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        // é noes
+
         final Bundle bundle = intent.getExtras();
 
         try {

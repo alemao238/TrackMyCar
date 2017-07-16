@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,6 +19,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.reebrandogmail.trackmycar.R;
+import com.reebrandogmail.trackmycar.Util.GPSTracker;
+
+import java.sql.Date;
 
 import butterknife.ButterKnife;
 
@@ -84,10 +88,11 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(MapsActivity.this.getContext(), remetente == null && mensagem == null ? "" : remetente + " : " + mensagem, Toast.LENGTH_SHORT).show();
                 if (mensagem != null){
                     // Add a marker in Sydney and move the camera
-                    String[] latlng = getLatLong(mensagem);
-                    LatLng yourLocation = new LatLng(Double.parseDouble(latlng[0]), Double.parseDouble(latlng[1]));
+                    GPSTracker gpsTracker = getInfo(mensagem);
+                    LatLng yourLocation = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(yourLocation).title("Your Location"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(yourLocation));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
             }
 
             }
@@ -96,8 +101,27 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         getActivity().registerReceiver(mReceiver, intentFilter);
     }
 
-    private String[] getLatLong(String latlng){
-        return latlng.split(",");
+    private GPSTracker getInfo(String message){
+        GPSTracker gpsTracker = new GPSTracker();
+        String[] rawMessage = message.split("\n");
+        //getting data from gps and storing in a GPS info class
+        //lat:-23.685345
+        gpsTracker.setLatitude(Float.parseFloat(rawMessage[0].split(":")[1]));
+        //long:-46.528315
+        gpsTracker.setLongitude(Float.parseFloat(rawMessage[1].split(":")[1]));
+        //speed:0.00
+        gpsTracker.setSpeed(Double.parseDouble(rawMessage[2].split(":")[1]));
+        //T:17/07/16 07:51
+        gpsTracker.setTimestamp(rawMessage[3].split(":",2)[1]);
+        //http://maps.google.com/maps?f=q&q=-23.685345,-46.528315&z=16
+        gpsTracker.setMapsURL(rawMessage[4]);
+        //separates the spaces and then attributes
+        //Pwr: OFF Door: OFF ACC: OFF
+        gpsTracker.setDoor(rawMessage[5].split(String.valueOf(' '))[1].equals("ON")?true:false);
+        gpsTracker.setPower(rawMessage[5].split(String.valueOf(' '))[3].equals("ON")?true:false);
+        gpsTracker.setAcc(rawMessage[5].split(String.valueOf(' '))[5].equals("ON")?true:false);
+        return gpsTracker;
+
     }
 
     @Override
