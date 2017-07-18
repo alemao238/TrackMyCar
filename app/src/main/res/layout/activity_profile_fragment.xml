@@ -7,23 +7,24 @@
     android:layout_height="match_parent"
     tools:context="com.reebrandogmail.trackmycar.fragments.ProfileFragment">
 
-    <TextView
+    <android.support.v4.app.FragmentTabHost
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@android:id/tabhost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/name"/>
+        android:layout_height="match_parent">
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/name"
-        android:id="@+id/etName"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/colorPrimaryLight"
-        android:text="update"
-        android:id="@+id/btnUpdate"
-        android:theme="@style/MyButton"/>
+            <FrameLayout
+                android:id="@+id/realtabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
+    </android.support.v4.app.FragmentTabHost>
 
 </LinearLayout>

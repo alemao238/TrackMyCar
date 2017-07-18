@@ -19,4 +19,18 @@
     <string name="author">Developed by Renan Ribeiro Brando</string>
     <string name="contact">Contact me now</string>
     <string name="keep_connected">Keep Connected</string>
+
+    <string name="title_activity_welcome">Home Screen</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+    <string name="slide_1_title">Welcome</string>
+    <string name="slide_1_desc">Set your phone to track your car with our app</string>
+    <string name="slide_2_title">Set Up</string>
+    <string name="slide_2_desc">Configure your traker to work anyway you want</string>
+    <string name="slide_3_title">Keep Updated</string>
+    <string name="slide_3_desc">See your car\'s info in your hand</string>
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> my tracker -> clear data</string>
+    <string name="play_again">Play Again</string>
+
 </resources>

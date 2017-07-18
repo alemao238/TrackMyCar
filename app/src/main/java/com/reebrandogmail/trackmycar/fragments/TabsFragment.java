@@ -6,28 +6,32 @@ import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import com.reebrandogmail.trackmycar.R;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
- * Created by renan.brando on 06/07/2017.
+ * Created by renanribeirobrando on 17/07/17.
  */
 
-public class ProfileFragment extends Fragment {
+public class TabsFragment  extends Fragment {
 
     private FragmentTabHost mTabHost;
-    
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_profile_fragment, container, false);
-        ButterKnife.bind(this, view);
+
+    //Mandatory Constructor
+    public TabsFragment() {
+
+    }
+
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
+
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_tabs,container, false);
+
 
         mTabHost = (FragmentTabHost)rootView.findViewById(android.R.id.tabhost);
         mTabHost.setup(getActivity(), getChildFragmentManager(), R.id.realtabcontent);
@@ -37,7 +41,8 @@ public class ProfileFragment extends Fragment {
         mTabHost.addTab(mTabHost.newTabSpec("fragmentc").setIndicator("Fragment C"),
                 FragmentC.class, null);
 
-        return view;
-    }
 
+        return rootView;
+    }
 }
+
