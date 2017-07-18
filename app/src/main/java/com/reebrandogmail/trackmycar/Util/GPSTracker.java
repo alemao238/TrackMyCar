@@ -1,6 +1,5 @@
 package com.reebrandogmail.trackmycar.Util;
 
-import java.util.Date;
 
 /**
  * Created by renanribeirobrando on 15/07/17.

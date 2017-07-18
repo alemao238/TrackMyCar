@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -21,7 +20,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.Util.GPSTracker;
 
-import java.sql.Date;
 
 import butterknife.ButterKnife;
 
