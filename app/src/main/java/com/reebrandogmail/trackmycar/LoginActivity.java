@@ -75,6 +75,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         requestSmsPermission();
+        requestSendSmsPermission();
     }
 
     public void skipLogin(){
@@ -175,6 +176,17 @@ public class LoginActivity extends AppCompatActivity {
 
     private void requestSmsPermission() {
         String permission = Manifest.permission.RECEIVE_SMS;
+        int grant = ContextCompat.checkSelfPermission(this, permission);
+        if ( grant != PackageManager.PERMISSION_GRANTED) {
+            String[] permission_list = new String[1];
+            permission_list[0] = permission;
+            ActivityCompat.requestPermissions(this, permission_list, 1);
+        }
+
+    }
+
+    private void requestSendSmsPermission(){
+        String permission = Manifest.permission.SEND_SMS;
         int grant = ContextCompat.checkSelfPermission(this, permission);
         if ( grant != PackageManager.PERMISSION_GRANTED) {
             String[] permission_list = new String[1];

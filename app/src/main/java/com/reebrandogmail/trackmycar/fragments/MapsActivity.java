@@ -39,8 +39,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
         if(getActivity().getIntent() != null) {
             Intent i = getActivity().getIntent();
-            String remetente = i.getStringExtra("remetente");
-            String mensagem = i.getStringExtra("mensagem");
+            String remetente = i.getStringExtra("tracker");
+            String mensagem = i.getStringExtra("message");
             Toast.makeText(view.getContext(), remetente == null && mensagem ==null ? "" : remetente + " : " + mensagem, Toast.LENGTH_SHORT).show();
         }
 
@@ -72,7 +72,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     public void onResume() {
         super.onResume();
 
-        GoogleMap nMap;
         IntentFilter intentFilter = new IntentFilter(
                 "android.intent.action.SMSRECEBIDO");
 
@@ -81,8 +80,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
             @Override
             public void onReceive(Context context, Intent intent) {
                 //extract our message from intent
-                String remetente = intent.getStringExtra("remetente");
-                String mensagem = intent.getStringExtra("mensagem");
+                String remetente = intent.getStringExtra("tracker");
+                String mensagem = intent.getStringExtra("message");
                 Toast.makeText(MapsActivity.this.getContext(), remetente == null && mensagem == null ? "" : remetente + " : " + mensagem, Toast.LENGTH_SHORT).show();
                 if (mensagem != null){
                     // Add a marker in Sydney and move the camera

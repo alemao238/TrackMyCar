@@ -1,6 +1,8 @@
 package com.reebrandogmail.trackmycar;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,7 +42,9 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                swapFragments(R.id.fragment_main, new MapsActivity());
+                String phoneNumber = "+5511953864738";
+                String message = "fix010s001n123456";
+                SmsManager.getDefault().sendTextMessage(phoneNumber, null, message, null,null);
             }
         });
 

@@ -46,8 +46,8 @@ public class LocationReceiver extends BroadcastReceiver {
                     Log.i("SmsReceiver", "senderNum: "+ numeroTelefone + "; message: " + mensagem);
 
                     Intent i2= new Intent("android.intent.action.SMSRECEBIDO")
-                            .putExtra("remetente", numeroTelefone)
-                            .putExtra("mensagem", mensagem);
+                            .putExtra("tracker", numeroTelefone)
+                            .putExtra("message", mensagem);
                     context.sendBroadcast(i2);
 
                     showNotification(context, numeroTelefone, mensagem);
@@ -58,18 +58,17 @@ public class LocationReceiver extends BroadcastReceiver {
         }
     }
 
-    // classe bete || batch || .bat
-    private void showNotification(Context context, String numeroTelefone, String mensagem) {
+    private void showNotification(Context context, String telNumber, String message) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
-        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
-        mBuilder.setContentTitle("Mensagem de: " + numeroTelefone);
-        mBuilder.setContentText(mensagem);
+        mBuilder.setSmallIcon(R.drawable.ic_menu_location);
+        mBuilder.setContentTitle("Tracker number: " + telNumber);
+        mBuilder.setContentText(message);
 
         Intent resultIntent = new Intent(context, MapsActivity.class);
 
         resultIntent
-                .putExtra("remetente", numeroTelefone)
-                .putExtra("mensagem", mensagem);
+                .putExtra("tracker", telNumber)
+                .putExtra("message", message);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
         stackBuilder.addParentStack(MapsActivity.class);
