@@ -57,8 +57,17 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        // Starts main fragment
-        swapFragments(R.id.fragment_main, new MainFragment());
+        String notification = getIntent().getStringExtra("mynotification");
+
+        if (notification != null){
+            if (notification.equals("showOnMap")){
+                swapFragments(R.id.fragment_main, new MapsActivity());
+            }
+        }
+        else{
+            // Starts main fragment
+            swapFragments(R.id.fragment_main, new MainFragment());
+        }
 
     }
 

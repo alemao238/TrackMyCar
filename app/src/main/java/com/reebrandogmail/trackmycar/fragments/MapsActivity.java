@@ -37,12 +37,6 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         ButterKnife.bind(this, view);
 
-        if(getActivity().getIntent() != null) {
-            Intent i = getActivity().getIntent();
-            String remetente = i.getStringExtra("tracker");
-            String mensagem = i.getStringExtra("message");
-            Toast.makeText(view.getContext(), remetente == null && mensagem ==null ? "" : remetente + " : " + mensagem, Toast.LENGTH_SHORT).show();
-        }
 
         return view;
     }
@@ -62,10 +56,20 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(51, 0.12);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Welcome to London"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        if(getActivity().getIntent() != null) {
+            Intent i = getActivity().getIntent();
+            String remetente = i.getStringExtra("tracker");
+            String mensagem = i.getStringExtra("message");
+            Toast.makeText(getActivity(), remetente == null && mensagem ==null ? "" : remetente + " : " + mensagem, Toast.LENGTH_SHORT).show();
+            if (mensagem != null){
+                // Add a marker in Sydney and move the camera
+                GPSTracker gpsTracker = getInfo(mensagem);
+                LatLng yourLocation = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(yourLocation).title("Your Location"));
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(yourLocation));
+                mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            }
+        }
     }
 
     @Override
@@ -90,7 +94,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
                     mMap.addMarker(new MarkerOptions().position(yourLocation).title("Your Location"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(yourLocation));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-            }
+                }
 
             }
         };

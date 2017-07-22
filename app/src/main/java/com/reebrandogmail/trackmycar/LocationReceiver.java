@@ -61,17 +61,19 @@ public class LocationReceiver extends BroadcastReceiver {
     private void showNotification(Context context, String telNumber, String message) {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.drawable.ic_menu_location);
+        mBuilder.setAutoCancel(true);
         mBuilder.setContentTitle("Tracker number: " + telNumber);
         mBuilder.setContentText(message);
 
-        Intent resultIntent = new Intent(context, MapsActivity.class);
+        Intent resultIntent = new Intent(context, MainActivity.class);
 
         resultIntent
+                .putExtra("mynotification", "showOnMap")
                 .putExtra("tracker", telNumber)
                 .putExtra("message", message);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(MapsActivity.class);
+        stackBuilder.addParentStack(MainActivity.class);
 
 
         stackBuilder.addNextIntent(resultIntent);
