@@ -26,6 +26,7 @@ import com.reebrandogmail.trackmycar.fragments.HistoryFragment;
 import com.reebrandogmail.trackmycar.fragments.MainFragment;
 import com.reebrandogmail.trackmycar.fragments.MapsActivity;
 import com.reebrandogmail.trackmycar.fragments.ProfileFragment;
+import com.reebrandogmail.trackmycar.fragments.SettingsActivity;
 import com.reebrandogmail.trackmycar.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -140,7 +141,7 @@ public class MainActivity extends AppCompatActivity
                 swapFragments(R.id.fragment_main, new HistoryFragment());
                 break;
             case R.id.nav_settings:
-                swapFragments(R.id.fragment_main, new SettingsFragment());
+                startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
             case R.id.nav_logout:
                 Snackbar.make(this.findViewById(R.id.content_main), "Replace with your own action", Snackbar.LENGTH_LONG)
