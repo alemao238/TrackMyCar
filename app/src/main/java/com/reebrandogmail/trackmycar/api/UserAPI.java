@@ -14,6 +14,6 @@ import rx.Observable;
 public interface UserAPI {
 
     //@GET("/v2/58b9b1740f0000b614f09d2f")
-    @GET("/v2/5979cb1d1100004c039edccb")
+    @GET("/v2/5979d2aa110000ab039edce5")
     Observable<List<User>> getUsers();
 }

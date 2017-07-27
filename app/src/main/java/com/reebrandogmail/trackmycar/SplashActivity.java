@@ -12,16 +12,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.api.ApiUtils;
 import com.reebrandogmail.trackmycar.api.UserAPI;
 import com.reebrandogmail.trackmycar.model.User;
 
-import java.io.IOException;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -31,17 +28,17 @@ public class SplashActivity extends AppCompatActivity {
     // Time that the splashscreen will be visible
     private final int SPLASH_DISPLAY_LENGTH = 3500;
     private UserAPI mService;
+    private DBHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        mService = ApiUtils.getUserAPI();
 
-        // Loads data from the api
-        syncData();
-        // Executes the animation
-        loadScreen();
+       db = new DBHandler(this);
+
+        SyncData syncData = new SyncData();
+        syncData.execute("");
     }
 
     private void loadScreen() {
@@ -97,8 +94,9 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void showData(List<User> users) {
-        for (User user : users) {
-            Toast.makeText(getApplicationContext(), user.getUser(), Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < users.size(); i++) {
+            Toast.makeText(getApplicationContext(), users.get(i).getUser() + "\n" + users.get(i).getPassword(), Toast.LENGTH_SHORT).show();
+            db.addUser(new User(i, users.get(i).getUser(), users.get(i).getPassword()));
         }
     }
 
@@ -108,37 +106,15 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            // Create a very simple REST adapter which points the GitHub API.
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://www.mocky.io")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
-
-            // Create an instance of our GitHub API interface.
-           // SimpleService.GitHub github = retrofit.create(SimpleService.GitHub.class);
-            UserAPI userAPI = retrofit.create(UserAPI.class);
-
-            // Create a call instance for looking up Retrofit contributors.
-            //Call<List<SimpleService.Contributor>> call = github.contributors("square", "retrofit");
-            Call<List<User>> call = (Call<List<User>>) userAPI.getUsers();
-
-            // Fetch and print a list of the contributors to the library.
-            List<User> users = null;
-            try {
-                users = call.execute().body();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            for (User u : users) {
-                Log.i("User", u.getUser());
-                Log.i("Password", u.getPassword());
-            }
+            // Loads data from the api
+            syncData();
             return "Executed";
         }
 
         @Override
         protected void onPostExecute(String result) {
-
+            // Executes the animation
+            loadScreen();
         }
 
         @Override

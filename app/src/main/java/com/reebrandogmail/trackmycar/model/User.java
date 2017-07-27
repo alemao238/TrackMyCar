@@ -8,14 +8,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class User {
 
+    private int id;
     @SerializedName("usuario")
     private String user;
     @SerializedName("senha")
     private String password;
 
-    public User(String username, String password){
+    public User(int id, String username, String password){
+        super();
+        this.id = id;
         this.user = username;
         this.password = password;
+    }
+
+    public User(String username, String password){
+        super();
+        this.user = username;
+        this.password = password;
+    }
+
+    public User() {
+        super();
     }
 
     public String getUser() {
@@ -32,5 +45,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

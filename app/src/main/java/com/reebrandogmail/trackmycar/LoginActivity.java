@@ -18,6 +18,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.reebrandogmail.trackmycar.Util.DBHandler;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -31,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.btn_login) Button _loginButton;
     @BindView(R.id.link_signup) TextView _signupLink;
     @BindView(R.id.chk_connected) CheckBox _chkConnected;
+    private DBHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,11 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        db = new DBHandler(this);
+
+        // Test to retrieve data from database
+        Toast.makeText(LoginActivity.this, String.valueOf(db.getUsersCount()), Toast.LENGTH_SHORT).show();
+        _emailText.setText(String.valueOf(db.getUser(7).getUser()));
         skipLogin();
 
         _loginButton.setOnClickListener(new View.OnClickListener() {
