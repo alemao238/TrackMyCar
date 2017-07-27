@@ -1,12 +1,16 @@
 package com.reebrandogmail.trackmycar.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by renanribeirobrando on 25/07/17.
  */
 
 public class User {
 
+    @SerializedName("usuario")
     private String user;
+    @SerializedName("senha")
     private String password;
 
     public User(String username, String password){
