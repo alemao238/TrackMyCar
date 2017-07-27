@@ -11,7 +11,6 @@ import com.reebrandogmail.trackmycar.model.User;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.provider.Contacts.SettingsColumns.KEY;
 
 /**
  * Created by renan.brando on 27/07/2017.
