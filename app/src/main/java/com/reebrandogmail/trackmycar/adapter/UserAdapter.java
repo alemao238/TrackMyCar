@@ -24,7 +24,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
         public MyViewHolder(View view) {
             super(view);
-            id = (TextView) view.findViewById(R.id.tvId);
+            id = (TextView) view.findViewById(R.id.tvUSerId);
             username = (TextView) view.findViewById(R.id.tvName);
             password = (TextView) view.findViewById(R.id.tvPassword);
         }
@@ -45,10 +45,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        User movie = usersList.get(position);
-        holder.id.setText(movie.getId());
-        holder.username.setText(movie.getUser());
-        holder.password.setText(movie.getPassword());
+        User user = usersList.get(position);
+//        holder.id.setText(user.getId());
+        holder.username.setText(user.getUser());
+        holder.password.setText(user.getPassword());
     }
 
     @Override
