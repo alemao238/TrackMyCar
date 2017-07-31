@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "613590621332",
+    "project_id": "trackmycar-1499167654343"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613590621332:android:5ee1b990589e8862",
+        "android_client_info": {
+          "package_name": "com.reebrandogmail.trackmycar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613590621332-c9tob65otsjje5oj8miragcjk9i8a3s4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.reebrandogmail.trackmycar",
+            "certificate_hash": "946597bf441a272e1d0d64f6ed78791741d91489"
+          }
+        },
+        {
+          "client_id": "613590621332-jdjtsvvj31vcc0917m2jcqlb0lfr95lq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHF8beXRwVsSTMUD7pM2mviNPFWBMYFnk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -33,7 +33,10 @@
             android:theme="@style/FullScreen" />
         <activity
             android:name=".WelcomeActivity"
-            android:theme="@style/FullScreen"></activity>
+            android:theme="@style/FullScreen"/>
+        <activity
+            android:name=".fragments.SettingsActivity"
+            android:label="@string/title_activity_settings"/>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/FullScreen">
@@ -63,9 +66,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".fragments.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>
