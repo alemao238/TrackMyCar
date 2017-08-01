@@ -19,6 +19,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -43,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final int RC_SIGN_IN = 007;
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
+    CallbackManager callbackManager;
 
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
@@ -50,16 +56,40 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @BindView(R.id.link_signup) TextView _signupLink;
     @BindView(R.id.chk_connected) CheckBox _chkConnected;
     @BindView(R.id.btn_sign_in) SignInButton btnSignIn;
+    @BindView(R.id.login_fb_button) LoginButton loginButton;
     private DBHandler db;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        callbackManager = CallbackManager.Factory.create();
         ButterKnife.bind(this);
 
         db = new DBHandler(this);
 
+        // Facebook Login
+        loginButton.setReadPermissions("email");
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
+
+        // Google Login
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -78,6 +108,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         _emailText.setText(String.valueOf(db.getUser(7).getUser()));
         skipLogin();
 
+        // Custom Login
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -281,6 +312,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Facebook callback
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
                 // TODO: Implement successful signup logic here
