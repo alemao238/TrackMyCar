@@ -1,5 +1,6 @@
 package com.reebrandogmail.trackmycar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -10,18 +11,18 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.reebrandogmail.trackmycar.Util.DBHandler;
-import com.reebrandogmail.trackmycar.api.ApiUtils;
 import com.reebrandogmail.trackmycar.api.UserAPI;
 import com.reebrandogmail.trackmycar.model.User;
 
-import java.util.List;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -35,10 +36,12 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-       db = new DBHandler(this);
+        db = new DBHandler(this);
 
-        SyncData syncData = new SyncData();
-        syncData.execute("");
+        //SyncData syncData = new SyncData();
+        //syncData.execute("");
+        SyncDatabase syncDatabase = new SyncDatabase();
+        syncDatabase.execute();
     }
 
     private void loadScreen() {
@@ -65,7 +68,7 @@ public class SplashActivity extends AppCompatActivity {
         }, SPLASH_DISPLAY_LENGTH);
     }
 
-    private void syncData(){
+    /*private void syncData(){
         mService = ApiUtils.getUserAPI();
 
         mService.getUsers()
@@ -122,5 +125,84 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Void... values) {}
+    }*/
+
+    private class SyncDatabase extends AsyncTask<String, Void, String> {
+        private ProgressDialog progress;
+
+        @Override
+        protected void onPreExecute() {
+            progress = ProgressDialog.show(SplashActivity.this, "Aguarde", "Buscando dados no servidor");
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                URL url = new URL("http://www.mocky.io/v2/58b9b1740f0000b614f09d2f");
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Accept", "application/json");
+                if (connection.getResponseCode() == 200) {
+                    BufferedReader stream = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    String linha = "";
+                    StringBuilder resposta = new StringBuilder();
+                    while ((linha = stream.readLine()) != null) {
+                        resposta.append(linha);
+                    }
+                    connection.disconnect();
+                    return resposta.toString();
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            progress.dismiss();
+            if (s != null) {
+                try {
+                    JSONObject json = new JSONObject(s);
+                    //                    JSONArray jsonArray=json.getJSONArray("ususarios");
+
+                    // List<User> users=new ArrayList<User>();
+
+                    //                    for(int i=0; i<jsonArray.length();i++){
+                    //                        JSONObject user=(JSONObject) jsonArray.get(i);
+                    //                        String userTemp=user.getString("usuario");
+                    //                        String password=user.getString("senha");
+                    //
+                    //                        users.add(new User(userTemp,password));
+                    //
+                    //                        Log.i("User", userTemp);
+                    //                        Log.i("Password",password);
+                    //                    }
+
+                    String user = json.getString("usuario");
+                    String password = json.getString("senha");
+                    db.addOnce(new User(user,password));
+
+
+                    Log.i("User", user);
+                    Log.i("Password", password);
+                    Log.i("Count", String.valueOf(db.getUsersCount()));
+                    Log.i("User",db.getUser(1).getUser());
+
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                            SplashActivity.this.finish();
+                        }
+                    }, SPLASH_DISPLAY_LENGTH);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }

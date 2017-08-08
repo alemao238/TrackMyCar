@@ -76,6 +76,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
+                startActivity(new Intent(LoginActivity.this, WelcomeActivity.class));
             }
 
             @Override
@@ -105,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         // Test to retrieve data from database
         Toast.makeText(LoginActivity.this, String.valueOf(db.getUsersCount()), Toast.LENGTH_SHORT).show();
-        _emailText.setText(String.valueOf(db.getUser(7).getUser()));
+        //_emailText.setText(String.valueOf(db.getUser(7).getUser()));
         skipLogin();
 
         // Custom Login

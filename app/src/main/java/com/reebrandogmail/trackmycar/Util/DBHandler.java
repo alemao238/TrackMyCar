@@ -136,4 +136,21 @@ public class DBHandler extends SQLiteOpenHelper {
                 new String[]{String.valueOf(user.getId())});
         db.close();
     }
+
+    // Adds only once
+    public void addOnce(User user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_ID,
+                        KEY_USERNAME, KEY_PASSWORD}, KEY_USERNAME + "=?",
+                new String[]{String.valueOf(user.getUser())}, null, null, null, null);
+        if (cursor.getCount() > 0) {
+            cursor.moveToFirst();
+
+            user.setId(Integer.parseInt(cursor.getString(0)));
+            updateUser(user);
+        } else {
+            addUser(user);
+        }
+    }
 }
