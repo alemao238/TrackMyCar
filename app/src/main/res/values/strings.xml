@@ -1,16 +1,16 @@
 <resources>
-    <string name="app_name">TrackMyCar</string>
+    <string name="app_name" translatable="false">TrackMyCar</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
-    <string name="track_my_car">Track My Car</string>
+    <string name="track_my_car" translatable="false">Track My Car</string>
     <string name="app_message">Instant car tracking app.</string>
     <string name="name">Name</string>
     <string name="password">Password</string>
-    <string name="email">Email</string>
+    <string name="email" translatable="false">Email</string>
     <string name="username">Username</string>
     <string name="create_account">Create Account</string>
     <string name="already_member">Already a member? Login</string>
@@ -30,7 +30,7 @@
     <string name="slide_2_desc">Configure your traker to work anyway you want</string>
     <string name="slide_3_title">Keep Updated</string>
     <string name="slide_3_desc">See your car\'s info in your hand</string>
-    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> my tracker -> clear data</string>
+    <string name="play_again_desc">To see the welcome slider again, go to Settings -> apps -> my tracker -> clear data</string>
     <string name="play_again">Play Again</string>
     <string name="title_activity_settings">Settings</string>
 
@@ -40,12 +40,12 @@
     <string name="pref_header_general">General</string>
 
     <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
+    <string name="pref_description_social_recommendations" translatable="false">Recommendations for people to contact
         based on your message history
     </string>
 
     <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
+    <string name="pref_default_display_name" translatable="false">John Smith</string>
 
     <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
     <string-array name="pref_example_list_titles">
@@ -60,7 +60,7 @@
     </string-array>
 
     <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
+    <string name="pref_header_data_sync" translatable="false">Data &amp; sync</string>
 
     <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
@@ -107,7 +107,18 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="loading">Loading...</string>
 
-    <string name="facebook_app_id">1321070847992186</string>
-    <string name="fb_login_protocol_scheme">fb1321070847992186</string>
+    <string name="facebook_app_id" translatable="false">1321070847992186</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb1321070847992186</string>
+    <string name="creating_account">Creating Account...</string>
+    <string name="login_failed">Login failed</string>
+    <string name="at_least">at least 3 characters</string>
+    <string name="valid_address">enter a valid email address</string>
+    <string name="between_chars">between 4 and 10 alphanumeric characters</string>
+    <string name="exit">Exit</string>
+    <string name="exit_sure">Are you sure you want to exit?</string>
+    <string name="authenticating">Authenticating...</string>
+    <string name="your_location">Your Location</string>
+    <string name="users">User</string>
+    <string name="vehicles">Vehicles</string>
 
 </resources>

@@ -65,7 +65,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
                 // Add a marker in Sydney and move the camera
                 GPSTracker gpsTracker = getInfo(mensagem);
                 LatLng yourLocation = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(yourLocation).title("Your Location"));
+                mMap.addMarker(new MarkerOptions().position(yourLocation).title(getString(R.string.your_location)));
                 mMap.moveCamera(CameraUpdateFactory.newLatLng(yourLocation));
                 mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
             }
@@ -91,7 +91,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
                     // Add a marker in Sydney and move the camera
                     GPSTracker gpsTracker = getInfo(mensagem);
                     LatLng yourLocation = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
-                    mMap.addMarker(new MarkerOptions().position(yourLocation).title("Your Location"));
+                    mMap.addMarker(new MarkerOptions().position(yourLocation).title(getString(R.string.your_location)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(yourLocation));
                     mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
                 }

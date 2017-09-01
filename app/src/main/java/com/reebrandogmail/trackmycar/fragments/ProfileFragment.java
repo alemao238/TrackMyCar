@@ -32,8 +32,8 @@ public class ProfileFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_profile_fragment, container, false);
         ButterKnife.bind(this, view);
 
-        tabLayout.addTab(tabLayout.newTab().setText("User"));
-        tabLayout.addTab(tabLayout.newTab().setText("Vehicles"));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.users));
+        tabLayout.addTab(tabLayout.newTab().setText(R.string.vehicles));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final PagerAdapter adapter = new PagerAdapter(getChildFragmentManager(), tabLayout.getTabCount());

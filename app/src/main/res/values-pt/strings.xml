@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Configurações</string>
+    <string name="already_member">Já tem uma conta? Login</string>
+    <string name="app_message">Aplicativo de rastreamento em tempo real.</string>
+    <string name="at_least">ao menos 3 caracteres</string>
+    <string name="authenticating">Autenticando...</string>
+    <string name="author">Desenvolvido por Renan Ribeiro Brando</string>
+    <string name="between_chars">entre 4 e 10 caracteres alfanuméricos</string>
+    <string name="contact">Me contate agora</string>
+    <string name="create_account">Criar conta</string>
+    <string name="creating_account">Criando conta...</string>
+    <string name="exit">Sair</string>
+    <string name="exit_sure">Você tem certeza que deseja sair?</string>
+    <string name="keep_connected">Manter conectado</string>
+    <string name="loading">Carregando...</string>
+    <string name="login">Autenticar</string>
+    <string name="login_failed">Autenticação falhou</string>
+    <string name="name">Nome</string>
+    <string name="navigation_drawer_close">Fechar menu de navegação</string>
+    <string name="navigation_drawer_open">Abrir menu de navegação</string>
+    <string name="next">PRÓXIMO</string>
+    <string name="no_account">Não possui uma conta? Crie agora</string>
+    <string name="password">Senha</string>
+    <string name="play_again">Ver novamente</string>
+    <string name="play_again_desc">Para ver a tela de boas vindas novamente vá para Configurações -> aplicativos -> my tracker -> limpar dados</string>
+    <string name="pref_header_general">Geral</string>
+    <string name="pref_header_notifications">Notificações</string>
+    <string name="pref_ringtone_silent">Silêncio</string>
+    <string name="pref_title_add_friends_to_messages"></string>
+    <string name="skip">PULAR</string>
+    <string name="your_location">Sua localização</string>
+    <string name="vehicles">Veículos</string>
+    <string name="valid_address">entre um email válido</string>
+    <string name="users">Usuário</string>
+    <string name="username">Nome de usuário</string>
+    <string name="title_activity_welcome">Tela inicial</string>
+    <string name="title_activity_settings">Configurações</string>
+    <string name="title_activity_maps">Mapa</string>
+    <string name="start">ENTENDIDO</string>
+    <string name="slide_3_title">Mantenha Atualizado</string>
+    <string name="slide_3_desc">Veja as informações do seu carro em suas mãos</string>
+    <string name="slide_2_title">Configurar</string>
+    <string name="slide_2_desc">Configure seu rastreador para funcionar como quiser</string>
+    <string name="slide_1_title">Bem Vindo</string>
+    <string name="slide_1_desc">Configure seu celular para rastrear seu carro com nosso aplicativo</string>
+</resources>

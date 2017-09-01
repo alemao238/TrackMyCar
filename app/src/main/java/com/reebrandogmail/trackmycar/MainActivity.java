@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity
             } else {
                 builder = new AlertDialog.Builder(MainActivity.this);
             }
-            builder.setTitle("Exit")
-                    .setMessage("Are you sure you want to exit?")
+            builder.setTitle(R.string.exit)
+                    .setMessage(R.string.exit_sure)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             // exit
