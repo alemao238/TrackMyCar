@@ -1,12 +1,15 @@
 package com.reebrandogmail.trackmycar.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by renanribeirobrando on 25/07/17.
  */
 
-public class User {
+public class User implements Parcelable{
 
 
     private int id;
@@ -32,6 +35,24 @@ public class User {
         super();
     }
 
+    protected User(Parcel in) {
+        id = in.readInt();
+        user = in.readString();
+        password = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
+
     public String getUser() {
         return user;
     }
@@ -54,5 +75,17 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(user);
+        dest.writeString(password);
     }
 }

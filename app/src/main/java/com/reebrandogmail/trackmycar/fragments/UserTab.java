@@ -1,7 +1,10 @@
 package com.reebrandogmail.trackmycar.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,7 +60,8 @@ public class UserTab extends Fragment {
             @Override
             public void onClick(View view, int position) {
                 User user = userList.get(position);
-                Toast.makeText(view.getContext(), user.getUser() + " is selected!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(view.getContext(), user.getUser() + " is selected!", Toast.LENGTH_SHORT).show();
+                swapFragmentsWithValue(R.id.fragment_main, new EditUserFragment(), "user", user.getId());
             }
 
             @Override
@@ -75,6 +79,17 @@ public class UserTab extends Fragment {
             userList.add(user);
         }
         mAdapter.notifyDataSetChanged();
+    }
+
+    // Generic method for swapping fragments in the activity with extra value
+    private void swapFragmentsWithValue(int activity, Fragment fragment, String key, int value){
+        Bundle bundle = new Bundle();
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        bundle.putInt(key, value);
+        fragment.setArguments(bundle);
+        transaction.replace(activity, fragment);
+        transaction.disallowAddToBackStack();
+        transaction.commit();
     }
 
 }

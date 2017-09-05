@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:elevation="0dp"
-        android:paddingBottom="80dp" />
+        android:elevation="0dp" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fbAdd"
