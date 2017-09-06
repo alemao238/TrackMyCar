@@ -27,7 +27,9 @@ public class DBHandler extends SQLiteOpenHelper {
     // Users Table Columns names
     private static final String KEY_ID = "id";
     private static final String KEY_USERNAME = "username";
+    private static final String KEY_MAIL = "mail";
     private static final String KEY_PASSWORD = "password";
+    private static final String KEY_PHONE = "phone";
 
     public DBHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

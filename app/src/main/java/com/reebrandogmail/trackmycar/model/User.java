@@ -15,8 +15,10 @@ public class User implements Parcelable{
     private int id;
     @SerializedName("usuario")
     private String user;
+    private String mail;
     @SerializedName("senha")
     private String password;
+    private String phone;
 
     public User(int id, String username, String password){
         super();
@@ -77,6 +79,22 @@ public class User implements Parcelable{
         this.id = id;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -88,4 +106,5 @@ public class User implements Parcelable{
         dest.writeString(user);
         dest.writeString(password);
     }
+
 }

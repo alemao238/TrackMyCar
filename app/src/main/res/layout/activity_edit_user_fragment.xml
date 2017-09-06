@@ -8,25 +8,25 @@
     tools:context="com.reebrandogmail.trackmycar.fragments.EditUserFragment">
 
         <EditText
-            android:id="@+id/tvName"
+            android:id="@+id/etName"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             android:hint="Name"
             android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/tvEmail"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@color/colorPrimaryDark"
-            android:hint="Email"
-            android:inputType="textEmailAddress" />
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
 
-        <EditText
-            android:id="@+id/tvPhone"
+    <EditText
+            android:id="@+id/etPhone"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
