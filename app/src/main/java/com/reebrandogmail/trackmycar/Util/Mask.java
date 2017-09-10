@@ -6,12 +6,38 @@ package com.reebrandogmail.trackmycar.Util;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import java.text.ParseException;
 
 public abstract class Mask {
     public static String unmask(String s) {
         return s.replaceAll("[.]", "").replaceAll("[-]", "")
                 .replaceAll("[/]", "").replaceAll("[(]", "")
                 .replaceAll("[)]", "");
+    }
+
+    public static String mask(final String mask, String value){
+        if (value == null)
+            return "unknown";
+
+        String mascara = "";
+        int i = 0;
+        String str = Mask.unmask(value.toString());
+        for (char m : mask.toCharArray()) {
+            if (m != '#') {
+                mascara += m;
+                continue;
+            }
+            try {
+                mascara += str.charAt(i);
+            } catch (Exception e) {
+                break;
+            }
+            i++;
+        }
+
+        return mascara;
     }
 
     public static TextWatcher insert(final String mask, final EditText ediTxt) {

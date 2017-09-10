@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.Util.DBHandler;
+import com.reebrandogmail.trackmycar.Util.Mask;
 import com.reebrandogmail.trackmycar.model.User;
 
 import butterknife.BindView;
@@ -36,12 +37,16 @@ public class EditUserFragment extends Fragment {
         View view = inflater.inflate(R.layout.activity_edit_user_fragment, container, false);
         ButterKnife.bind(this, view);
 
+        etPhone.addTextChangedListener(Mask.insert("(##)#####-####", etPhone));
+
         db = new DBHandler(getContext());
 
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             user  = db.getUser(bundle.getInt("user", 1));
             etUsername.setText(user.getUser());
+            etEmail.setText(user.getMail());
+            etPhone.setText(Mask.unmask(user.getPhone()));
         }
 
         return view;
@@ -49,6 +54,10 @@ public class EditUserFragment extends Fragment {
 
     @OnClick(R.id.btnCancel)
     public void cancel(View view){
+        goBack();
+    }
+
+    public void goBack(){
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_main, new ProfileFragment());
         transaction.disallowAddToBackStack();
@@ -61,19 +70,20 @@ public class EditUserFragment extends Fragment {
         if (!isValidField(etUsername)){
             etUsername.setError("Invalid input");
         }
-        /*else if (!isValidField(etEmail)){
+        else if (!isValidField(etEmail)){
             etUsername.setError("Invalid input");
         }
         else if (!isValidField(etPhone)){
             etPhone.setError("Invalid input");
-        }*/
-        else {
-            user = new User();
-            user.setUser(etUsername.getText().toString());
-            //user.setMail(etEmail.getText().toString());
-            //user.setPhone(etPhone.getText().toString());
-            db.updateUser(user);
         }
+        else {
+            this.user.setUser(etUsername.getText().toString());
+            this.user.setMail(etEmail.getText().toString());
+            this.user.setPhone(etPhone.getText().toString());
+            db.updateUser(this.user);
+        }
+
+        goBack();
     }
 
     private boolean isValidField(EditText editText){

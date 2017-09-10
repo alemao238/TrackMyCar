@@ -123,5 +123,7 @@
     <string name="phone">Phone</string>
     <string name="logout">Logout</string>
     <string name="logout_sure">Are you sure you want to logout?</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
 
 </resources>

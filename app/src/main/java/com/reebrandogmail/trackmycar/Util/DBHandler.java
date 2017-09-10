@@ -81,6 +81,10 @@ public class DBHandler extends SQLiteOpenHelper {
                 cursor.getString(1), cursor.getString(2));
         user.setMail(cursor.getString(3));
         user.setPhone(cursor.getString(4));
+
+        db.close();
+        cursor.close();
+
         // return user
         return user;
     }
@@ -94,7 +98,12 @@ public class DBHandler extends SQLiteOpenHelper {
                 KEY_MAIL + "=?" + " AND " + KEY_PASSWORD + "=?",
                 new String[]{String.valueOf(username), String.valueOf(password)}, null, null, null, null);
 
-        return cursor.getCount() > 0;
+        boolean i = cursor.getCount() > 0;
+
+        db.close();
+        cursor.close();
+
+        return i;
 
     }
 
@@ -120,6 +129,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 userList.add(user);
             } while (cursor.moveToNext());
         }
+
+        db.close();
+        cursor.close();
 
         // return contact list
         return userList;
@@ -149,8 +161,12 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(KEY_PHONE, user.getPhone());
 
         // updating row
-        return db.update(TABLE_USERS, values, KEY_ID + " = ?",
+        int i = db.update(TABLE_USERS, values, KEY_ID + " = ?",
                 new String[]{String.valueOf(user.getId())});
+
+        db.close();
+
+        return i;
     }
 
     // Deleting a user
@@ -176,5 +192,7 @@ public class DBHandler extends SQLiteOpenHelper {
         } else {
             addUser(user);
         }
+
+        db.close();
     }
 }

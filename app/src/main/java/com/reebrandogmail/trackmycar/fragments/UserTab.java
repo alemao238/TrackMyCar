@@ -47,7 +47,7 @@ public class UserTab extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.rvProfile);
 
-        mAdapter = new UserAdapter(userList);
+        mAdapter = new UserAdapter(getActivity(), userList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -55,20 +55,6 @@ public class UserTab extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
         prepareUsersData();
-
-        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(view.getContext(), recyclerView, new ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-                User user = userList.get(position);
-                //Toast.makeText(view.getContext(), user.getUser() + " is selected!", Toast.LENGTH_SHORT).show();
-                swapFragmentsWithValue(R.id.fragment_main, new EditUserFragment(), "user", user.getId());
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));
 
         return view;
     }
