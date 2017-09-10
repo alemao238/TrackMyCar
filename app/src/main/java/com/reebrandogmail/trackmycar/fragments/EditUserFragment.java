@@ -46,14 +46,15 @@ public class EditUserFragment extends Fragment {
             user  = db.getUser(bundle.getInt("user", 1));
             etUsername.setText(user.getUser());
             etEmail.setText(user.getMail());
-            etPhone.setText(Mask.unmask(user.getPhone()));
+            if (!(user.getPhone() == null))
+                etPhone.setText(Mask.unmask(user.getPhone()));
         }
 
         return view;
     }
 
     @OnClick(R.id.btnCancel)
-    public void cancel(View view){
+    public void cancel(){
         goBack();
     }
 
@@ -66,7 +67,7 @@ public class EditUserFragment extends Fragment {
 
 
     @OnClick(R.id.btnConfirm)
-    public void confirm(View view){
+    public void confirm(){
         if (!isValidField(etUsername)){
             etUsername.setError("Invalid input");
         }

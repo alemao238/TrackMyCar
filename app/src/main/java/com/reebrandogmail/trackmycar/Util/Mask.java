@@ -23,7 +23,7 @@ public abstract class Mask {
 
         String mascara = "";
         int i = 0;
-        String str = Mask.unmask(value.toString());
+        String str = Mask.unmask(value);
         for (char m : mask.toCharArray()) {
             if (m != '#') {
                 mascara += m;

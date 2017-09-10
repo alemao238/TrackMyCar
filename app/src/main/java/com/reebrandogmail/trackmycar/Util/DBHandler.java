@@ -109,7 +109,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     // Getting All Users
     public List<User> getAllUsers() {
-        List<User> userList = new ArrayList<User>();
+        List<User> userList = new ArrayList<>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_USERS;
 
@@ -193,6 +193,7 @@ public class DBHandler extends SQLiteOpenHelper {
             addUser(user);
         }
 
+        cursor.close();
         db.close();
     }
 }

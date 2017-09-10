@@ -6,7 +6,7 @@ package com.reebrandogmail.trackmycar.api;
 
 public class ApiUtils {
 
-    public static final String BASE_URL = "http://www.mocky.io";
+    private static final String BASE_URL = "http://www.mocky.io";
 
     public static UserAPI getUserAPI() {
         return RetrofitClient.getClient(BASE_URL).create(UserAPI.class);

@@ -33,7 +33,7 @@ public class AboutFragment extends Fragment {
     }
 
     @OnClick(R.id.contactLink)
-    public void callUs(View view){
+    public void callUs(){
         String phone = "983114452";
         Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
         startActivity(intent);

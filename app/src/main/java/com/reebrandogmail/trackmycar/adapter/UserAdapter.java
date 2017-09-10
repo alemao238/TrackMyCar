@@ -33,11 +33,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
     private Context mContext;
     private FragmentActivity fragmentActivity;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView username, phone;
-        public ImageView overflow;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        private TextView username, phone;
+        private ImageView overflow;
 
-        public MyViewHolder(View view) {
+        private MyViewHolder(View view) {
             super(view);
             mContext = view.getContext();
             username = (TextView) view.findViewById(R.id.tvName);
