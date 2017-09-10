@@ -1,10 +1,13 @@
 package com.reebrandogmail.trackmycar.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.reebrandogmail.trackmycar.MainActivity;
 import com.reebrandogmail.trackmycar.R;
+import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.Util.Mask;
 import com.reebrandogmail.trackmycar.fragments.EditUserFragment;
 import com.reebrandogmail.trackmycar.model.User;
@@ -82,7 +87,29 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
                                 swapFragmentsWithValue(R.id.fragment_main, new EditUserFragment(), "user", user.getId());
                                 return true;
                             case R.id.action_play_next:
-                                Toast.makeText(mContext, "Delete" + user.getId(), Toast.LENGTH_SHORT).show();
+                                AlertDialog.Builder builder;
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    builder = new AlertDialog.Builder(mContext, android.R.style.Theme_Material_Dialog_Alert);
+                                } else {
+                                    builder = new AlertDialog.Builder(mContext);
+                                }
+                                builder.setTitle("Delete")
+                                        .setMessage("Are you sure you want to delete " + user.getUser() + "?")
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // delete
+                                                DBHandler db = new DBHandler(mContext);
+                                                db.deleteUser(user);
+
+                                            }
+                                        })
+                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                // do nothing
+                                            }
+                                        })
+                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                        .show();
                                 return true;
                             default:
                         }

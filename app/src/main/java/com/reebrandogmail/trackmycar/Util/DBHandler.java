@@ -196,4 +196,20 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
     }
+
+    // Adds only once
+    public void addOnceBySocial(User user) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_ID,
+                        KEY_USERNAME, KEY_PASSWORD}, KEY_MAIL+"=?",
+                new String[]{String.valueOf(user.getMail())}, null, null, null, null);
+        if (!(cursor.getCount() > 0)) {
+            addUser(user);
+        }
+
+        cursor.close();
+        db.close();
+    }
 }
+

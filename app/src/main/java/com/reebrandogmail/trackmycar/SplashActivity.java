@@ -185,12 +185,6 @@ public class SplashActivity extends AppCompatActivity {
                     String password = json.getString("senha");
                     db.addOnce(new User(user,password));
 
-
-                    Log.i("User", user);
-                    Log.i("Password", password);
-                    Log.i("Count", String.valueOf(db.getUsersCount()));
-                    Log.i("User",db.getUser(1).getUser());
-
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {

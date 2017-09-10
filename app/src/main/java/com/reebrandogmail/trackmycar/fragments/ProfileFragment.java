@@ -1,8 +1,11 @@
 package com.reebrandogmail.trackmycar.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+
+import com.reebrandogmail.trackmycar.MainActivity;
 import com.reebrandogmail.trackmycar.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -29,6 +32,12 @@ public class ProfileFragment extends Fragment {
         super.onCreateView(inflater, container, savedInstanceState);
         View view = inflater.inflate(R.layout.activity_profile_fragment, container, false);
         ButterKnife.bind(this, view);
+
+        final FloatingActionButton fab = ((MainActivity) getActivity()).getFloatingActionButton();
+
+        if (fab != null) {
+            ((MainActivity) getActivity()).hideFloatingActionButton();
+        }
 
         tabLayout.addTab(tabLayout.newTab().setText(R.string.users));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.vehicles));

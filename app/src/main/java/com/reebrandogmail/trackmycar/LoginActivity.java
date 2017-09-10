@@ -22,6 +22,9 @@ import android.widget.Toast;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -35,10 +38,16 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.reebrandogmail.trackmycar.Util.DBHandler;
+import com.reebrandogmail.trackmycar.model.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.reebrandogmail.trackmycar.R.string.email;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -58,6 +67,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @BindView(R.id.btn_sign_in) SignInButton btnSignIn;
     @BindView(R.id.login_fb_button) LoginButton loginButton;
     private DBHandler db;
+    private String Name;
+    private String FEmail;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,13 +81,43 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         db = new DBHandler(this);
 
         // Facebook Login
+        loginButton.setReadPermissions("name");
         loginButton.setReadPermissions("email");
+        //loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(
+                                    JSONObject object,
+                                    GraphResponse response) {
+                                Log.v("LoginActivity Response ", response.toString());
+
+                                try {
+                                    Name = object.getString("name");
+
+                                    FEmail = object.getString("email");
+                                    Log.v("Email = ", " " + FEmail);
+                                    Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                Profile profile = Profile.getCurrentProfile();
+                Log.i("FB", profile.getName());
+                User tmp = new User();
+                tmp.setUser(profile.getName());
+                tmp.setMail(FEmail);
+                db.addOnceBySocial(tmp);
                 startActivity(new Intent(LoginActivity.this, WelcomeActivity.class));
             }
 

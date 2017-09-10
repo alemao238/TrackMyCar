@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.reebrandogmail.trackmycar.MainActivity;
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.Util.GPSTracker;
 
@@ -37,6 +39,11 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
         ButterKnife.bind(this, view);
 
+        final FloatingActionButton fab = ((MainActivity) getActivity()).getFloatingActionButton();
+
+        if (fab != null) {
+            ((MainActivity) getActivity()).showFloatingActionButton();
+        }
 
         return view;
     }

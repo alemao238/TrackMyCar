@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String KEEP_CONNECTED = "keep_connected";
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -178,6 +178,7 @@ public class MainActivity extends AppCompatActivity
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putBoolean(KEEP_CONNECTED, false);
                         editor.apply();
+                        finish();
                         startActivity(new Intent(MainActivity.this, LoginActivity.class));
                     }
                 })
@@ -189,6 +190,18 @@ public class MainActivity extends AppCompatActivity
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
+
+    public FloatingActionButton getFloatingActionButton(){
+        return fab;
+    }
+
+    public void showFloatingActionButton() {
+        fab.show();
+    }
+
+    public void hideFloatingActionButton() {
+        fab.hide();
+    };
 
     // Generic method for swapping fragments in the activity
     private void swapFragments(int activity, Fragment fragment){
