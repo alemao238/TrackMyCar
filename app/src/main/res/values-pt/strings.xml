@@ -44,4 +44,7 @@
     <string name="slide_2_desc">Configure seu rastreador para funcionar como quiser</string>
     <string name="slide_1_title">Bem Vindo</string>
     <string name="slide_1_desc">Configure seu celular para rastrear seu carro com nosso aplicativo</string>
+    <string name="phone">Celular</string>
+    <string name="logout">Logout</string>
+    <string name="logout_sure">Você tem certeza que deseja sair do app?</string>
 </resources>

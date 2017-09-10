@@ -41,10 +41,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
+
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final String KEEP_CONNECTED = "keep_connected";
-    //private static final String TAG = MainActivity.class.getSimpleName();
     private static final int RC_SIGN_IN = 007;
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
@@ -104,9 +104,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         btnSignIn.setSize(SignInButton.SIZE_STANDARD);
         btnSignIn.setScopes(gso.getScopeArray());
 
-        // Test to retrieve data from database
-        Toast.makeText(LoginActivity.this, String.valueOf(db.getUsersCount()), Toast.LENGTH_SHORT).show();
-        //_emailText.setText(String.valueOf(db.getUser(7).getUser()));
         skipLogin();
 
         // Custom Login
@@ -125,22 +122,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 // Starts sign up activity for email result
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivityForResult(intent, REQUEST_SIGNUP);
-            }
-        });
-
-        _chkConnected.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPref.edit();
-                if (_chkConnected.isChecked()){
-                    editor.putBoolean(KEEP_CONNECTED, true);
-                    editor.apply();
-                }
-                else {
-                    editor.putBoolean(KEEP_CONNECTED, false);
-                    editor.apply();
-                }
             }
         });
 
@@ -186,7 +167,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        updateUI(false);
+
                     }
                 });
     }
@@ -196,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 new ResultCallback<Status>() {
                     @Override
                     public void onResult(Status status) {
-                        updateUI(false);
+
                     }
                 });
     }
@@ -204,7 +185,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
+            // Signed in successfully
             GoogleSignInAccount acct = result.getSignInAccount();
 
             Log.i(TAG, "display name: " + acct.getDisplayName());
@@ -216,18 +197,10 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             Log.i(TAG, "Name: " + personName + ", email: " + email
                     + ", Image: " + personPhotoUrl);
 
-            /*txtName.setText(personName);
-            txtEmail.setText(email);
-            Glide.with(getApplicationContext()).load(personPhotoUrl)
-                    .thumbnail(0.5f)
-                    .crossFade()
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .into(imgProfilePic);*/
 
-            //updateUI(true);
         } else {
-            // Signed out, show unauthenticated UI.
-            //updateUI(false);
+            // Signed out
+
         }
     }
 
@@ -255,33 +228,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    private void updateUI(boolean isSignedIn) {
-        /*if (isSignedIn) {
-            btnSignIn.setVisibility(View.GONE);
-            btnSignOut.setVisibility(View.VISIBLE);
-            btnRevokeAccess.setVisibility(View.VISIBLE);
-            llProfileLayout.setVisibility(View.VISIBLE);
-        } else {
-            btnSignIn.setVisibility(View.VISIBLE);
-            btnSignOut.setVisibility(View.GONE);
-            btnRevokeAccess.setVisibility(View.GONE);
-            llProfileLayout.setVisibility(View.GONE);
-        }*/
-    }
-
     public void skipLogin(){
         SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
         boolean connected = sharedPref.getBoolean(KEEP_CONNECTED, false);
         if (connected){
             // skip login
-            _chkConnected.setChecked(true);
-            Toast.makeText(LoginActivity.this, "You are connected", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, WelcomeActivity.class));
         }
     }
 
     public void login() {
         Log.d(TAG, "Login");
 
+        // Validates user entry
         if (!validate()) {
             onLoginFailed();
             return;
@@ -295,17 +254,24 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
         // TODO: Implement your own authentication logic here.
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                        // onLoginFailed();
+                        String email = _emailText.getText().toString().trim();
+                        String password = _passwordText.getText().toString().trim();
+
+                        // Validates valid user
+                        if (db.loginUser(email, password)){
+                            onLoginSuccess();
+                            // Puts keep connected preference in shared preferences
+                            keepConnected();
+                        } else {
+                            onLoginFailed();
+                        }
+
                         progressDialog.dismiss();
                     }
                 }, 3000);
@@ -347,8 +313,20 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     public void onLoginFailed() {
         Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
-
         _loginButton.setEnabled(true);
+    }
+
+    public void keepConnected(){
+        SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        if (_chkConnected.isChecked()){
+            editor.putBoolean(KEEP_CONNECTED, true);
+            editor.apply();
+        }
+        else {
+            editor.putBoolean(KEEP_CONNECTED, false);
+            editor.apply();
+        }
     }
 
     public boolean validate() {

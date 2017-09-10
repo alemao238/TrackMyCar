@@ -19,7 +19,7 @@ import java.util.List;
 public class DBHandler extends SQLiteOpenHelper {
     
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     // Database Name
     private static final String DATABASE_NAME = "trackMyCar";
     // Contacts table name
@@ -39,7 +39,8 @@ public class DBHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_USERS + "("
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_USERNAME + " TEXT,"
-                + KEY_PASSWORD + " TEXT" + ")";
+                + KEY_PASSWORD + " TEXT," + KEY_MAIL + " TEXT,"
+                + KEY_PHONE + " TEXT" + ")";
         db.execSQL(CREATE_USERS_TABLE);
     }
 
@@ -57,7 +58,9 @@ public class DBHandler extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(KEY_USERNAME, user.getUser()); // User Name
-        values.put(KEY_PASSWORD, user.getPassword()); // User Phone Number
+        values.put(KEY_PASSWORD, user.getPassword()); // User Password
+        values.put(KEY_MAIL, user.getMail()); // User Email
+        values.put(KEY_PHONE, user.getPhone()); // User Phone
 
         // Inserting Row
         db.insert(TABLE_USERS, null, values);
@@ -69,15 +72,30 @@ public class DBHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
 
         Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_ID,
-                        KEY_USERNAME, KEY_PASSWORD}, KEY_ID + "=?",
+                        KEY_USERNAME, KEY_PASSWORD, KEY_MAIL, KEY_PHONE}, KEY_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        User contact = new User(Integer.parseInt(cursor.getString(0)),
+        User user = new User(Integer.parseInt(cursor.getString(0)),
                 cursor.getString(1), cursor.getString(2));
+        user.setMail(cursor.getString(3));
+        user.setPhone(cursor.getString(4));
         // return user
-        return contact;
+        return user;
+    }
+
+    // Logging user
+    public boolean loginUser(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_ID,
+                        KEY_USERNAME, KEY_PASSWORD, KEY_MAIL, KEY_PHONE},
+                KEY_MAIL + "=?" + " AND " + KEY_PASSWORD + "=?",
+                new String[]{String.valueOf(username), String.valueOf(password)}, null, null, null, null);
+
+        return cursor.getCount() > 0;
+
     }
 
     // Getting All Users
@@ -96,6 +114,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 user.setId(Integer.parseInt(cursor.getString(0)));
                 user.setUser(cursor.getString(1));
                 user.setPassword(cursor.getString(2));
+                user.setMail(cursor.getString(3));
+                user.setPhone(cursor.getString(4));
                 // Adding contact to list
                 userList.add(user);
             } while (cursor.moveToNext());
@@ -125,6 +145,8 @@ public class DBHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_USERNAME, user.getUser());
         values.put(KEY_PASSWORD, user.getPassword());
+        values.put(KEY_MAIL, user.getMail());
+        values.put(KEY_PHONE, user.getPhone());
 
         // updating row
         return db.update(TABLE_USERS, values, KEY_ID + " = ?",

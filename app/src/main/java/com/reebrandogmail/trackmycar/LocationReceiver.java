@@ -49,7 +49,7 @@ public class LocationReceiver extends BroadcastReceiver {
                             .putExtra("tracker", numeroTelefone)
                             .putExtra("message", mensagem);
                     context.sendBroadcast(i2);
-
+                    abortBroadcast();
                     showNotification(context, numeroTelefone, mensagem);
                 }
             }

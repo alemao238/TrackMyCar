@@ -64,7 +64,7 @@
         <receiver
             android:name=".LocationReceiver"
             android:permission="android.permission.BROADCAST_SMS">
-            <intent-filter android:priority="5000">
+            <intent-filter android:priority="50000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>

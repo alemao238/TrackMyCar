@@ -120,5 +120,8 @@
     <string name="your_location">Your Location</string>
     <string name="users">User</string>
     <string name="vehicles">Vehicles</string>
+    <string name="phone">Phone</string>
+    <string name="logout">Logout</string>
+    <string name="logout_sure">Are you sure you want to logout?</string>
 
 </resources>

@@ -1,8 +1,9 @@
 package com.reebrandogmail.trackmycar;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,10 +28,11 @@ import com.reebrandogmail.trackmycar.fragments.MainFragment;
 import com.reebrandogmail.trackmycar.fragments.MapsActivity;
 import com.reebrandogmail.trackmycar.fragments.ProfileFragment;
 import com.reebrandogmail.trackmycar.fragments.SettingsActivity;
-import com.reebrandogmail.trackmycar.fragments.SettingsFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private static final String KEEP_CONNECTED = "keep_connected";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,8 +146,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(new Intent(MainActivity.this, SettingsActivity.class));
                 break;
             case R.id.nav_logout:
-                Snackbar.make(this.findViewById(R.id.content_main), "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                logOut();
                 break;
             case R.id.nav_about:
                 swapFragments(R.id.fragment_main, new AboutFragment());
@@ -158,6 +159,34 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void logOut(){
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(MainActivity.this);
+        }
+        builder.setTitle(R.string.logout)
+                .setMessage(R.string.logout_sure)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // logout
+                        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putBoolean(KEEP_CONNECTED, false);
+                        editor.apply();
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
     // Generic method for swapping fragments in the activity

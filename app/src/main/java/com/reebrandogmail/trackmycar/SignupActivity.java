@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.reebrandogmail.trackmycar.Util.DBHandler;
+import com.reebrandogmail.trackmycar.Util.Mask;
+import com.reebrandogmail.trackmycar.model.User;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -20,14 +24,26 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.input_name) EditText _nameText;
     @BindView(R.id.input_email) EditText _emailText;
     @BindView(R.id.input_password) EditText _passwordText;
+    @BindView(R.id.input_phone) EditText _phoneNumber;
     @BindView(R.id.btn_signup) Button _signupButton;
     @BindView(R.id.link_login) TextView _loginLink;
+
+    DBHandler db;
+
+    String name;
+    String password;
+    String email;
+    String phone;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
+
+        db = new DBHandler(getApplicationContext());
+
+        _phoneNumber.addTextChangedListener(Mask.insert("(##)#####-####", _phoneNumber));
 
         _signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,10 +77,6 @@ public class SignupActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.creating_account));
         progressDialog.show();
 
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
         // TODO: Implement your own signup logic here.
 
         new android.os.Handler().postDelayed(
@@ -72,6 +84,13 @@ public class SignupActivity extends AppCompatActivity {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
                         // depending on success
+                        User user = new User();
+                        user.setUser(name);
+                        user.setMail(email);
+                        user.setPassword(password);
+                        user.setPhone(phone);
+
+                        db.addUser(user);
                         onSignupSuccess();
                         // onSignupFailed();
                         progressDialog.dismiss();
@@ -97,9 +116,10 @@ public class SignupActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String name = _nameText.getText().toString();
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
+        name = _nameText.getText().toString();
+        email = _emailText.getText().toString();
+        password = _passwordText.getText().toString();
+        phone = Mask.unmask(_phoneNumber.getText().toString());
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError(getString(R.string.at_least));
@@ -120,6 +140,13 @@ public class SignupActivity extends AppCompatActivity {
             valid = false;
         } else {
             _passwordText.setError(null);
+        }
+
+        if (phone.isEmpty() || phone.length() < 8 || phone.length() > 11) {
+            _phoneNumber.setError(getString(R.string.between_chars));
+            valid = false;
+        } else {
+            _phoneNumber.setError(null);
         }
 
         return valid;
