@@ -125,5 +125,7 @@
     <string name="logout_sure">Are you sure you want to logout?</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="facebook">facebook</string>
+    <string name="google">google</string>
 
 </resources>

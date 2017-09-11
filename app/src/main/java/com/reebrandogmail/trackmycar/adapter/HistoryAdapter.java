@@ -72,39 +72,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                 //creating a popup menu
                 PopupMenu popup = new PopupMenu(mContext, holder.share);
                 //inflating menu from xml resource
-                popup.inflate(R.menu.menu_profile);
+                popup.inflate(R.menu.menu_history);
                 //adding click listener
                 popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.action_add_favourite:
+                            case R.id.facebook:
                                 //swapFragmentsWithValue(R.id.fragment_main, new EditUserFragment(), "vehicle", vehicle.getId());
                                 return true;
-                            case R.id.action_play_next:
-                                AlertDialog.Builder builder;
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                    builder = new AlertDialog.Builder(mContext, android.R.style.Theme_Material_Dialog_Alert);
-                                } else {
-                                    builder = new AlertDialog.Builder(mContext);
-                                }
-                                builder.setTitle("Delete")
-                                        .setMessage("Are you sure you want to delete this history? ")
-                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // delete
-                                                DBHandler db = new DBHandler(mContext);
-                                                db.deleteHitory(history);
+                            case R.id.google:
 
-                                            }
-                                        })
-                                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                // do nothing
-                                            }
-                                        })
-                                        .setIcon(android.R.drawable.ic_dialog_alert)
-                                        .show();
                                 return true;
                             default:
                         }
