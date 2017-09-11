@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.Util.DBHandler;
@@ -19,12 +18,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by renan.brando on 09/08/2017.
+ * Created by renan.brando on 11/09/2017.
  */
 
 public class EditUserFragment extends Fragment {
 
-    @BindView(R.id.etName)  EditText etUsername;
+    @BindView(R.id.etName)
+    EditText etUsername;
     @BindView(R.id.etEmail) EditText etEmail;
     @BindView(R.id.etPhone) EditText etPhone;
 

@@ -166,7 +166,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public Vehicle getVehicle(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_HISTORY, new String[]{KEY_VHC_ID,
+        Cursor cursor = db.query(TABLE_VEHICLES, new String[]{KEY_VHC_ID,
                         KEY_VHC_BRAND, KEY_VHC_MODEL, KEY_VHC_PLATE, KEY_VHC_YEAR, KEY_VHC_COLOR}, KEY_VHC_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
@@ -191,7 +191,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public History getHistory(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_USERS, new String[]{KEY_HIST_ID,
+        Cursor cursor = db.query(TABLE_HISTORY, new String[]{KEY_HIST_ID,
                         KEY_HIST_PLACE, KEY_HIST_LAT, KEY_HIST_LONG, KEY_HIST_TIME}, KEY_HIST_ID + "=?",
                 new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)

@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.Util.Mask;
+import com.reebrandogmail.trackmycar.fragments.EditVehicleFragment;
 import com.reebrandogmail.trackmycar.model.Vehicle;
 
 import java.util.List;
@@ -81,7 +82,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.MyViewHo
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.action_add_favourite:
-                                //swapFragmentsWithValue(R.id.fragment_main, new EditUserFragment(), "vehicle", vehicle.getId());
+                                swapFragmentsWithValue(R.id.fragment_main, new EditVehicleFragment(), "vehicle", vehicle.getId());
                                 return true;
                             case R.id.action_play_next:
                                 AlertDialog.Builder builder;
