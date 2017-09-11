@@ -127,5 +127,6 @@
     <string name="delete">Delete</string>
     <string name="facebook">facebook</string>
     <string name="google">google</string>
+    <string name="others">others</string>
 
 </resources>

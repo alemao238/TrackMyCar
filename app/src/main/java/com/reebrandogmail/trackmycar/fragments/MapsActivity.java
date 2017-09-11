@@ -20,7 +20,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.reebrandogmail.trackmycar.MainActivity;
 import com.reebrandogmail.trackmycar.R;
+import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.Util.GPSTracker;
+import com.reebrandogmail.trackmycar.model.History;
 
 
 import butterknife.ButterKnife;
@@ -29,6 +31,7 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private BroadcastReceiver mReceiver;
+    private DBHandler db;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         ButterKnife.bind(this, view);
+
+        db = new DBHandler(view.getContext());
 
         final FloatingActionButton fab = ((MainActivity) getActivity()).getFloatingActionButton();
 
@@ -93,10 +98,16 @@ public class MapsActivity extends Fragment implements OnMapReadyCallback {
                 //extract our message from intent
                 String remetente = intent.getStringExtra("tracker");
                 String mensagem = intent.getStringExtra("message");
+                History history = new History();
                 Toast.makeText(MapsActivity.this.getContext(), remetente == null && mensagem == null ? "" : remetente + " : " + mensagem, Toast.LENGTH_SHORT).show();
                 if (mensagem != null){
                     // Add a marker in Sydney and move the camera
                     GPSTracker gpsTracker = getInfo(mensagem);
+                    history.setMapsURL(gpsTracker.getMapsURL());
+                    history.setLatitude(gpsTracker.getLatitude());
+                    history.setLongitude(gpsTracker.getLongitude());
+                    history.setTimestamp(gpsTracker.getTimestamp());
+                    db.addHistory(history);
                     LatLng yourLocation = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(yourLocation).title(getString(R.string.your_location)));
                     mMap.moveCamera(CameraUpdateFactory.newLatLng(yourLocation));

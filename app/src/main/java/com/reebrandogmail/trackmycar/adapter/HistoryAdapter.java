@@ -1,14 +1,9 @@
 package com.reebrandogmail.trackmycar.adapter;
 
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,13 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.facebook.share.ShareApi;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.reebrandogmail.trackmycar.R;
-import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.model.History;
 
 import java.util.List;
@@ -90,8 +82,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                                         .build();
                                 shareDialog.show(content);  // Show facebook ShareDialog
                                 return true;
-                            case R.id.google:
+                            case R.id.other:
+                                Intent share = new Intent(android.content.Intent.ACTION_SEND);
+                                share.setType("text/plain");
+                                share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
+                                // Add data to the intent, the receiving app will decide
+                                // what to do with it.
+                                share.putExtra(Intent.EXTRA_SUBJECT, "I was driving here.");
+                                share.putExtra(Intent.EXTRA_TEXT, history.getMapsURL());
+
+                                fragmentActivity.startActivity(Intent.createChooser(share, "Share your location!"));
                                 return true;
                             default:
                         }
@@ -110,15 +111,5 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         return historiesList.size();
     }
 
-    // Generic method for swapping fragments in the activity with extra value
-    private void swapFragmentsWithValue(int activity, Fragment fragment, String key, int value){
-        Bundle bundle = new Bundle();
-        FragmentTransaction transaction = fragmentActivity.getSupportFragmentManager().beginTransaction();
-        bundle.putInt(key, value);
-        fragment.setArguments(bundle);
-        transaction.replace(activity, fragment);
-        transaction.disallowAddToBackStack();
-        transaction.commit();
-    }
 
 }
