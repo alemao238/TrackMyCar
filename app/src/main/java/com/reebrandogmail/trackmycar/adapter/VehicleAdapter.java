@@ -42,7 +42,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.MyViewHo
             super(view);
             mContext = view.getContext();
             name = (TextView) view.findViewById(R.id.tvName);
-            license = (TextView) view.findViewById(R.id.tvPhone);
+            license = (TextView) view.findViewById(R.id.tvPlate);
             overflow = (ImageView) view.findViewById(R.id.overflow);
         }
     }

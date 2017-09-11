@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.api.UserAPI;
+import com.reebrandogmail.trackmycar.model.History;
 import com.reebrandogmail.trackmycar.model.User;
+import com.reebrandogmail.trackmycar.model.Vehicle;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +25,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.Timestamp;
+import java.util.Date;
 
 public class SplashActivity extends AppCompatActivity {
 
