@@ -2,6 +2,7 @@ package com.reebrandogmail.trackmycar.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,7 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.share.ShareApi;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.model.History;
@@ -79,7 +84,11 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.facebook:
-                                //swapFragmentsWithValue(R.id.fragment_main, new EditUserFragment(), "vehicle", vehicle.getId());
+                                ShareDialog shareDialog = new ShareDialog(fragmentActivity);
+                                ShareLinkContent content = new ShareLinkContent.Builder()
+                                        .setContentUrl(Uri.parse(history.getMapsURL()))
+                                        .build();
+                                shareDialog.show(content);  // Show facebook ShareDialog
                                 return true;
                             case R.id.google:
 

@@ -43,6 +43,8 @@ import com.reebrandogmail.trackmycar.model.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,9 +83,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         db = new DBHandler(this);
 
         // Facebook Login
-        loginButton.setReadPermissions("name");
-        loginButton.setReadPermissions("email");
-        //loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
+        //loginButton.setReadPermissions("email");
+        loginButton.setReadPermissions(Arrays.asList("name","public_profile", "email", "user_birthday", "user_friends", "publish_actions"));
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
