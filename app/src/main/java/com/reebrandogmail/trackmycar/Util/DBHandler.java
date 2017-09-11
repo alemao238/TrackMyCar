@@ -427,7 +427,7 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     // Deleting a vehicle
-    public void deleteUser(Vehicle vehicle) {
+    public void deleteVehicle(Vehicle vehicle) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_VEHICLES, KEY_VHC_ID + " = ?",
                 new String[]{String.valueOf(vehicle.getId())});
