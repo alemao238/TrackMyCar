@@ -105,12 +105,12 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -134,6 +134,9 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id){
+            case R.id.nav_home:
+                swapFragments(R.id.fragment_main, new MainFragment());
+                break;
             case R.id.nav_profile:
                 swapFragments(R.id.fragment_main, new ProfileFragment());
                 break;
