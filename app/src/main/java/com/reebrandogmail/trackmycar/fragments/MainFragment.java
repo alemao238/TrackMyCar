@@ -21,6 +21,8 @@ import com.reebrandogmail.trackmycar.MainActivity;
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.adapter.ItemAdapter;
+import com.reebrandogmail.trackmycar.adapter.MapItemAdapter;
+import com.reebrandogmail.trackmycar.model.History;
 import com.reebrandogmail.trackmycar.model.User;
 
 import java.util.ArrayList;
@@ -32,9 +34,10 @@ public class MainFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private RecyclerView recyclerView2;
-    private ItemAdapter adapter;
+    private MapItemAdapter adapter;
     private ItemAdapter adapter2;
     private List<User> usersList;
+    private List<History> historiesList;
     private DBHandler db;
 
     @Override
@@ -55,7 +58,8 @@ public class MainFragment extends Fragment {
         recyclerView2 = (RecyclerView) view.findViewById(R.id.recycler_view2);
 
         usersList = new ArrayList<>();
-        adapter = new ItemAdapter(view.getContext(), usersList);
+        historiesList = new ArrayList<>();
+        adapter = new MapItemAdapter(view.getContext(), historiesList);
         adapter2 = new ItemAdapter(view.getContext(), usersList);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(view.getContext(), 1, GridLayoutManager.HORIZONTAL, false);
@@ -77,8 +81,12 @@ public class MainFragment extends Fragment {
 
     private void prepareUsersData() {
         List<User> users = db.getAllUsers();
+        List<History> histories = db.getAllHistories();
         for (User user : users){
             usersList.add(user);
+        }
+        for (History history : histories){
+            historiesList.add(history);
         }
         adapter.notifyDataSetChanged();
         adapter2.notifyDataSetChanged();

@@ -10,26 +10,44 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.reebrandogmail.trackmycar.R;
-import com.reebrandogmail.trackmycar.model.User;
+import com.reebrandogmail.trackmycar.model.History;
 
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Map;
 
 /**
- * Created by Renan Ribeiro Brando on 15/08/16.
+ * Created by renan.brando on 15/09/2017.
  */
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
+
+public class MapItemAdapter extends RecyclerView.Adapter<MapItemAdapter.MyViewHolder> implements OnMapReadyCallback {
 
     private Context mContext;
-    private List<User> usersList;
+    private List<History> historiesList;
+    private HashSet<MapView> mapViews = new HashSet<>();
+    private GoogleMap googleMap;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new
+                LatLng(51.0107214,6.9549693), 10));
+        googleMap.addMarker(new MarkerOptions()
+                .position(new LatLng(51.0107214, 6.9549693)));
+    }
+
+
+    public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView title, count, thumbnail;
         public ImageView overflow;
+        public  MapView mapView;
 
         public MyViewHolder(View view) {
             super(view);
@@ -37,29 +55,36 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
             count = (TextView) view.findViewById(R.id.count);
             thumbnail = (TextView) view.findViewById(R.id.thumbnail);
             overflow = (ImageView) view.findViewById(R.id.overflow);
+            mapView = (MapView) view.findViewById(R.id.map_view);
+            //mapView = ((MapView) view.findViewById(R.id.map_view)).getMap();
+
         }
+
     }
 
 
-    public ItemAdapter(Context mContext, List<User> usersList) {
+    public MapItemAdapter(Context mContext, List<History> historiesList) {
         this.mContext = mContext;
-        this.usersList = usersList;
+        this.historiesList = historiesList;
+        //mapView.getMapAsync(this);
     }
 
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MapItemAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_card, parent, false);
 
-        return new MyViewHolder(itemView);
+        return new MapItemAdapter.MyViewHolder(itemView);
     }
 
+
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        User user = usersList.get(position);
-        holder.title.setText(user.getUser());
-        holder.count.setText(user.getPhone() + " " + mContext.getString(R.string.granted));
-        holder.thumbnail.setText(String.valueOf(user.getUser().charAt(0)));
+    public void onBindViewHolder(final MapItemAdapter.MyViewHolder holder, int position) {
+        History history = historiesList.get(position);
+        //holder.mapView.onCreate();
+        //holder.mapView.getMapAsync(this);
+        //holder.title.setText(history.getUser());
+        //holder.count.setText(user.getPhone() + " " + mContext.getString(R.string.granted));
+        //holder.thumbnail.setText(String.valueOf(user.getUser().charAt(0)));
         // loading album cover using Glide library
         //Glide.with(mContext).load(R.drawable.map).into(holder.thumbnail);
 
@@ -79,7 +104,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         PopupMenu popup = new PopupMenu(mContext, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_item, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
+        popup.setOnMenuItemClickListener(new MapItemAdapter.MyMenuItemClickListener());
         popup.show();
     }
 
@@ -104,6 +129,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
 
     @Override
     public int getItemCount() {
-        return usersList.size();
+        return historiesList.size();
     }
 }
