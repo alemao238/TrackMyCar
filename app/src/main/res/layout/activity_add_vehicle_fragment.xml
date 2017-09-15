@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Brand"
+        android:hint="@string/brand"
         android:inputType="text" />
 
     <EditText
@@ -22,7 +22,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Model"
+        android:hint="@string/model"
         android:inputType="text" />
 
     <EditText
@@ -30,7 +30,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="License Plate"
+        android:hint="@string/license_plate"
         android:inputType="text" />
 
     <EditText
@@ -38,7 +38,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Year"
+        android:hint="@string/year"
         android:inputType="date" />
 
     <EditText
@@ -46,7 +46,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Color"
+        android:hint="@string/color"
         android:inputType="text" />
 
     <LinearLayout
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:theme="@style/MyButton"/>
 
         <Button
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:text="Submit"
+            android:text="@string/submit"
             android:theme="@style/MyButton"/>
 
     </LinearLayout>

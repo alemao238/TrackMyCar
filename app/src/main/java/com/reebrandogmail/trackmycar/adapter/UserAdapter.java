@@ -91,8 +91,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
                                 } else {
                                     builder = new AlertDialog.Builder(mContext);
                                 }
-                                builder.setTitle("Delete")
-                                        .setMessage("Are you sure you want to delete " + user.getUser() + "?")
+                                builder.setTitle(mContext.getString(R.string.delete))
+                                        .setMessage(mContext.getString(R.string.delete_user) + " " + user.getUser() + "?")
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 // delete

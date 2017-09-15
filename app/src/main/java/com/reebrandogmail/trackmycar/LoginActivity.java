@@ -2,7 +2,6 @@ package com.reebrandogmail.trackmycar;
 
 import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -25,7 +24,6 @@ import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
-import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -43,8 +41,6 @@ import com.reebrandogmail.trackmycar.model.User;
 
 import org.json.JSONException;
 
-import java.util.Arrays;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
     private static final int RC_SIGN_IN = 007;
-    private PreferenceManager prefManager;
+    private PrefsManager prefManager;
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
     CallbackManager callbackManager;
@@ -79,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         callbackManager = CallbackManager.Factory.create();
         ButterKnife.bind(this);
 
-        prefManager = new PreferenceManager(this);
+        prefManager = new PrefsManager(this);
 
         db = new DBHandler(this);
 

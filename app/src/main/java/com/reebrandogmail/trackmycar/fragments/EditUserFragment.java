@@ -68,13 +68,13 @@ public class EditUserFragment extends Fragment {
     @OnClick(R.id.btnConfirm)
     public void confirm(){
         if (!isValidField(etUsername)){
-            etUsername.setError("Invalid input");
+            etUsername.setError(getString(R.string.invalid_input));
         }
         else if (!isValidField(etEmail)){
-            etEmail.setError("Invalid input");
+            etEmail.setError(getString(R.string.invalid_input));
         }
         else if (!isValidField(etPhone)){
-            etPhone.setError("Invalid input");
+            etPhone.setError(getString(R.string.invalid_input));
         }
         else {
             this.user.setUser(etUsername.getText().toString());

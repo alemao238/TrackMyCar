@@ -63,19 +63,19 @@ public class AddVehicleFragment extends Fragment {
     @OnClick(R.id.btnConfirmAddVehicle)
     public void submitVehicle(){
         if (!isValidField(etBrand)){
-            etBrand.setError("Invalid input");
+            etBrand.setError(getString(R.string.invalid_input));
         }
         else if (!isValidField(etModel)){
-            etModel.setError("Invalid input");
+            etModel.setError(getString(R.string.invalid_input));
         }
         else if (!isValidField(etPlate)){
-            etPlate.setError("Invalid input");
+            etPlate.setError(getString(R.string.invalid_input));
         }
         else if (!isValidField(etYear)){
-            etYear.setError("Invalid input");
+            etYear.setError(getString(R.string.invalid_input));
         }
         else if (!isValidField(etColor)){
-            etColor.setError("Invalid input");
+            etColor.setError(getString(R.string.invalid_input));
         }
         else {
             this.vehicle.setBrand(etBrand.getText().toString());

@@ -62,8 +62,8 @@ public class LocationReceiver extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.drawable.ic_menu_location);
         mBuilder.setAutoCancel(true);
-        mBuilder.setContentTitle("Tracker number: " + telNumber);
-        mBuilder.setContentText(message);
+        mBuilder.setContentTitle(context.getString(R.string.tracker_id_notification) + telNumber);
+        mBuilder.setContentText(context.getString(R.string.tracker_content_notification));
 
         Intent resultIntent = new Intent(context, MainActivity.class);
 

@@ -44,6 +44,9 @@
         based on your message history
     </string>
 
+    <string name="pref_title_tracker_number">Tracker number</string>
+    <string name="pref_default_tracker_number" translatable="false">+5511953864738</string>
+
     <string name="pref_title_display_name">Display name</string>
     <string name="pref_default_display_name" translatable="false">John Smith</string>
 
@@ -125,13 +128,26 @@
     <string name="logout_sure">Are you sure you want to logout?</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
-    <string name="facebook">facebook</string>
-    <string name="google">google</string>
+    <string name="facebook" translatable="false">facebook</string>
+    <string name="google" translatable="false">google</string>
     <string name="others">others</string>
 
-    <string name="action_add_favourite">Add to Favourites</string>
-    <string name="action_play_next">Play Next</string>
-    <string name="backdrop_title">LOVE MUSIC</string>
-    <string name="backdrop_subtitle">This season top 20 albums</string>
+    <string name="tracker_id_notification">Tracker number:</string>
+    <string name="tracker_content_notification">Your vehicle has been found.</string>
+    <string name="was_here">I was driving here.</string>
+    <string name="share_location">Share your location!</string>
+    <string name="granted">granted</string>
+    <string name="delete_user">Are you sure you want to delete</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="wait">Wait</string>
+    <string name="searching_data">Searching data in the database</string>
+    <string name="more">more</string>
+    <string name="cancel">Cancel</string>
+    <string name="submit">Submit</string>
+    <string name="brand">Brand</string>
+    <string name="model">Model</string>
+    <string name="license_plate">License Plate</string>
+    <string name="year">Year</string>
+    <string name="color">Color</string>
 
 </resources>

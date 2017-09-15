@@ -2,14 +2,19 @@ package com.reebrandogmail.trackmycar;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+
+import com.reebrandogmail.trackmycar.fragments.SettingsActivity;
 
 /**
  * Created by renanribeirobrando on 17/07/17.
  */
 
-public class PreferenceManager {
+public class PrefsManager {
 
     SharedPreferences pref;
+    SharedPreferences defaultPref;
     SharedPreferences.Editor editor;
     Context _context;
 
@@ -21,10 +26,12 @@ public class PreferenceManager {
 
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String KEEP_CONNECTED = "keep_connected";
+    private static final String TRACKER = "tracker";
 
-    public PreferenceManager(Context context) {
+    public PrefsManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        defaultPref = PreferenceManager.getDefaultSharedPreferences(context);
         editor = pref.edit();
     }
 
@@ -44,6 +51,11 @@ public class PreferenceManager {
 
     public boolean isConnected() {
         return pref.getBoolean(KEEP_CONNECTED, false);
+    }
+
+
+    public String getTrackerNumber(){
+        return defaultPref.getString(TRACKER, "");
     }
 }
 

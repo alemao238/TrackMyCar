@@ -1,12 +1,11 @@
 package com.reebrandogmail.trackmycar;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -20,7 +19,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.AccessToken;
@@ -36,7 +34,7 @@ import com.reebrandogmail.trackmycar.fragments.SettingsActivity;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private PreferenceManager prefManager;
+    private PrefsManager prefManager;
     FloatingActionButton fab;
 
     @Override
@@ -46,11 +44,13 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        prefManager = new PrefsManager(this);
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String phoneNumber = "+5511953864738";
+                String phoneNumber = prefManager.getTrackerNumber();
                 String message = "fix010s001n123456";
                 SmsManager.getDefault().sendTextMessage(phoneNumber, null, message, null,null);
             }
@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        prefManager = new PreferenceManager(this);
 
         String notification = getIntent().getStringExtra("mynotification");
 

@@ -89,10 +89,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
                                 // Add data to the intent, the receiving app will decide
                                 // what to do with it.
-                                share.putExtra(Intent.EXTRA_SUBJECT, "I was driving here.");
+                                share.putExtra(Intent.EXTRA_SUBJECT, mContext.getString(R.string.was_here));
                                 share.putExtra(Intent.EXTRA_TEXT, history.getMapsURL());
 
-                                fragmentActivity.startActivity(Intent.createChooser(share, "Share your location!"));
+                                fragmentActivity.startActivity(Intent.createChooser(share, mContext.getString(R.string.share_location)));
                                 return true;
                             default:
                         }

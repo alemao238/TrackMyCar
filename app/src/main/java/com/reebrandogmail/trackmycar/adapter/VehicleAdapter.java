@@ -95,8 +95,8 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.MyViewHo
                                 } else {
                                     builder = new AlertDialog.Builder(mContext);
                                 }
-                                builder.setTitle("Delete")
-                                        .setMessage("Are you sure you want to delete " + vehicle.getModel() + "?")
+                                builder.setTitle(mContext.getString(R.string.delete))
+                                        .setMessage(mContext.getString(R.string.delete_user) + " " + vehicle.getModel() + "?")
                                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int which) {
                                                 // delete

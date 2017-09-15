@@ -20,7 +20,7 @@ import java.util.List;
 
 
 /**
- * Created by Ravi Tamada on 18/05/16.
+ * Created by Renan Ribeiro Brando on 15/08/16.
  */
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> {
 
@@ -58,7 +58,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         User user = usersList.get(position);
         holder.title.setText(user.getUser());
-        holder.count.setText(user.getPhone() + " granted");
+        holder.count.setText(user.getPhone() + " " + mContext.getString(R.string.granted));
 
         // loading album cover using Glide library
         Glide.with(mContext).load(R.drawable.map).into(holder.thumbnail);
@@ -94,11 +94,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.MyViewHolder> 
         @Override
         public boolean onMenuItemClick(MenuItem menuItem) {
             switch (menuItem.getItemId()) {
-                case R.id.action_add_favourite:
-                    Toast.makeText(mContext, "Add to favourite", Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.action_play_next:
-                    Toast.makeText(mContext, "Play next", Toast.LENGTH_SHORT).show();
+                case R.id.action_more:
                     return true;
                 default:
             }

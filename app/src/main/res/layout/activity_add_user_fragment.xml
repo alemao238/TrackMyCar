@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Name"
+        android:hint="@string/name"
         android:inputType="textPersonName" />
 
     <EditText
@@ -22,7 +22,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress" />
 
     <EditText
@@ -30,7 +30,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:hint="Phone"
+        android:hint="@string/phone"
         android:inputType="phone" />
 
     <LinearLayout
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:text="Cancel"
+            android:text="@string/cancel"
             android:theme="@style/MyButton"/>
 
         <Button
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_weight="0.5"
-            android:text="Submit"
+            android:text="@string/submit"
             android:theme="@style/MyButton"/>
 
     </LinearLayout>

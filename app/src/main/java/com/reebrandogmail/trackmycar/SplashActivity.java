@@ -136,7 +136,7 @@ public class SplashActivity extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            progress = ProgressDialog.show(SplashActivity.this, "Aguarde", "Buscando dados no servidor");
+            progress = ProgressDialog.show(SplashActivity.this, getString(R.string.wait), getString(R.string.searching_data));
         }
 
         @Override
