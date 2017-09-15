@@ -18,16 +18,16 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by renan.brando on 09/08/2017.
+ * Created by renan.brando on 15/09/2017.
  */
 
-public class EditVehicleFragment extends Fragment {
+public class AddVehicleFragment extends Fragment {
 
-    @BindView(R.id.etBrand)  EditText etBrand;
-    @BindView(R.id.etModel) EditText etModel;
-    @BindView(R.id.etPlate) EditText etPlate;
-    @BindView(R.id.etYear) EditText etYear;
-    @BindView(R.id.etColor) EditText etColor;
+    @BindView(R.id.etBrandA) EditText etBrand;
+    @BindView(R.id.etModelA) EditText etModel;
+    @BindView(R.id.etPlateA) EditText etPlate;
+    @BindView(R.id.etYearA) EditText etYear;
+    @BindView(R.id.etColorA) EditText etColor;
 
     Vehicle vehicle;
     DBHandler db;
@@ -35,23 +35,14 @@ public class EditVehicleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_edit_vehicle_fragment, container, false);
+        View view = inflater.inflate(R.layout.activity_add_vehicle_fragment, container, false);
         ButterKnife.bind(this, view);
 
         etPlate.addTextChangedListener(Mask.insert("###-####", etPlate));
 
         db = new DBHandler(getContext());
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            vehicle  = db.getVehicle(bundle.getInt("vehicle", 1));
-            etBrand.setText(vehicle.getBrand());
-            etModel.setText(vehicle.getModel());
-            if (!(vehicle.getLicensePlate() == null))
-                etPlate.setText(Mask.unmask(vehicle.getLicensePlate()));
-            etYear.setText(vehicle.getYear());
-            etColor.setText(vehicle.getColor());
-        }
+        vehicle = new Vehicle();
 
         return view;
     }
@@ -69,8 +60,8 @@ public class EditVehicleFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.btnConfirm)
-    public void confirm(){
+    @OnClick(R.id.btnConfirmAddVehicle)
+    public void submitVehicle(){
         if (!isValidField(etBrand)){
             etBrand.setError("Invalid input");
         }
@@ -92,7 +83,7 @@ public class EditVehicleFragment extends Fragment {
             this.vehicle.setLicensePlate(etPlate.getText().toString());
             this.vehicle.setYear(etYear.getText().toString());
             this.vehicle.setColor(etColor.getText().toString());
-            db.updateVehicle(this.vehicle);
+            db.addVehicle(this.vehicle);
             goBack();
         }
 

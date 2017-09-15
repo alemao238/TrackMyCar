@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by renan.brando on 18/07/2017.
@@ -68,14 +69,16 @@ public class UserTab extends Fragment {
     }
 
     // Generic method for swapping fragments in the activity with extra value
-    private void swapFragmentsWithValue(int activity, Fragment fragment, String key, int value){
-        Bundle bundle = new Bundle();
+    private void swapFragments(int activity, Fragment fragment){
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        bundle.putInt(key, value);
-        fragment.setArguments(bundle);
         transaction.replace(activity, fragment);
         transaction.disallowAddToBackStack();
         transaction.commit();
+    }
+
+    @OnClick(R.id.fbAddUser)
+    public void add(){
+        swapFragments(R.id.fragment_main, new AddUserFragment());
     }
 
 }

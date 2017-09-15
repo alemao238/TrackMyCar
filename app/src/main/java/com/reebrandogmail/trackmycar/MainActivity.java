@@ -1,5 +1,6 @@
 package com.reebrandogmail.trackmycar;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.reebrandogmail.trackmycar.fragments.AboutFragment;
 import com.reebrandogmail.trackmycar.fragments.HistoryFragment;
 import com.reebrandogmail.trackmycar.fragments.MainFragment;
@@ -32,7 +36,7 @@ import com.reebrandogmail.trackmycar.fragments.SettingsActivity;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String KEEP_CONNECTED = "keep_connected";
+    private PreferenceManager prefManager;
     FloatingActionButton fab;
 
     @Override
@@ -60,6 +64,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        prefManager = new PreferenceManager(this);
 
         String notification = getIntent().getStringExtra("mynotification");
 
@@ -165,7 +171,9 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void logOut(){
+    private void logOut() {
+        FacebookSdk.sdkInitialize(getApplicationContext());
+
         AlertDialog.Builder builder;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             builder = new AlertDialog.Builder(MainActivity.this, android.R.style.Theme_Material_Dialog_Alert);
@@ -177,12 +185,14 @@ public class MainActivity extends AppCompatActivity
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         // logout
-                        SharedPreferences sharedPref = MainActivity.this.getPreferences(Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPref.edit();
-                        editor.putBoolean(KEEP_CONNECTED, false);
-                        editor.apply();
-                        finish();
-                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        if (AccessToken.getCurrentAccessToken() != null){
+                            LoginManager.getInstance().logOut();
+                            AccessToken.setCurrentAccessToken(null);
+                        }
+                        prefManager.setKeepConnected(false);
+                        MainActivity.this.finish();
+                        startActivity(new Intent(getBaseContext(), LoginActivity.class));
+
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

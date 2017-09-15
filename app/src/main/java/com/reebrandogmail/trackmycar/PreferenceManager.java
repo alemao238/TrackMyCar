@@ -20,6 +20,7 @@ public class PreferenceManager {
     private static final String PREF_NAME = "intro_slider-welcome";
 
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
+    private static final String KEEP_CONNECTED = "keep_connected";
 
     public PreferenceManager(Context context) {
         this._context = context;
@@ -34,6 +35,15 @@ public class PreferenceManager {
 
     public boolean isFirstTimeLaunch() {
         return pref.getBoolean(IS_FIRST_TIME_LAUNCH, true);
+    }
+
+    public void setKeepConnected(boolean keepConnected){
+        editor.putBoolean(KEEP_CONNECTED, keepConnected);
+        editor.commit();
+    }
+
+    public boolean isConnected() {
+        return pref.getBoolean(KEEP_CONNECTED, false);
     }
 }
 

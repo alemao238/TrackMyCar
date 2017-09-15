@@ -64,7 +64,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
     }
 
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final User user = usersList.get(position);
         holder.username.setText(user.getUser());
         holder.phone.setText(Mask.mask("(##)#####-####", user.getPhone()));
@@ -98,6 +98,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.MyViewHolder> 
                                                 // delete
                                                 DBHandler db = new DBHandler(mContext);
                                                 db.deleteUser(user);
+                                                usersList.remove(position);
+                                                notifyItemRemoved(position);
+                                                //this line below gives you the animation and also updates the
+                                                //list items after the deleted item
+                                                notifyItemRangeChanged(position, getItemCount());
+                                                notifyDataSetChanged();
 
                                             }
                                         })

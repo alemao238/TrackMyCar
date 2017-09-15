@@ -20,10 +20,14 @@ import android.widget.TextView;
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.Util.Mask;
+import com.reebrandogmail.trackmycar.fragments.AddUserFragment;
+import com.reebrandogmail.trackmycar.fragments.AddVehicleFragment;
 import com.reebrandogmail.trackmycar.fragments.EditVehicleFragment;
 import com.reebrandogmail.trackmycar.model.Vehicle;
 
 import java.util.List;
+
+import butterknife.OnClick;
 
 /**
  * Created by renan.brando on 11/09/2017.
@@ -63,7 +67,7 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(final VehicleAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(final VehicleAdapter.MyViewHolder holder, final int position) {
         final Vehicle vehicle = vehiclesList.get(position);
         holder.name.setText(vehicle.getBrand());
         holder.name.append("-" + vehicle.getModel());
@@ -98,7 +102,12 @@ public class VehicleAdapter extends RecyclerView.Adapter<VehicleAdapter.MyViewHo
                                                 // delete
                                                 DBHandler db = new DBHandler(mContext);
                                                 db.deleteVehicle(vehicle);
-
+                                                vehiclesList.remove(position);
+                                                notifyItemRemoved(position);
+                                                //this line below gives you the animation and also updates the
+                                                //list items after the deleted item
+                                                notifyItemRangeChanged(position, getItemCount());
+                                                notifyDataSetChanged();
                                             }
                                         })
                                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {

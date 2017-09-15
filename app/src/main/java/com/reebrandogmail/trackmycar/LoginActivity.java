@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -19,11 +18,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -41,7 +42,6 @@ import com.reebrandogmail.trackmycar.Util.DBHandler;
 import com.reebrandogmail.trackmycar.model.User;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Arrays;
 
@@ -49,14 +49,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.reebrandogmail.trackmycar.R.string.email;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
-    private static final String KEEP_CONNECTED = "keep_connected";
     private static final int RC_SIGN_IN = 007;
+    private PreferenceManager prefManager;
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
     CallbackManager callbackManager;
@@ -80,45 +79,54 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         callbackManager = CallbackManager.Factory.create();
         ButterKnife.bind(this);
 
+        prefManager = new PreferenceManager(this);
+
         db = new DBHandler(this);
 
         // Facebook Login
         //loginButton.setReadPermissions("email");
-        loginButton.setReadPermissions(Arrays.asList("name","public_profile", "email", "user_birthday", "user_friends", "publish_actions"));
+        //loginButton.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday", "user_friends"));
+        loginButton.setReadPermissions("public_profile email");
 
         // Callback registration
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response) {
-                                Log.v("LoginActivity Response ", response.toString());
+                GraphRequest request = new GraphRequest(AccessToken.getCurrentAccessToken(), loginResult.getAccessToken().getUserId(),
+                        null, HttpMethod.GET, new GraphRequest.Callback() {
 
-                                try {
-                                    Name = object.getString("name");
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        Log.v("LoginActivity Response ", response.toString());
 
-                                    FEmail = object.getString("email");
-                                    Log.v("Email = ", " " + FEmail);
-                                    Toast.makeText(getApplicationContext(), "Name " + Name, Toast.LENGTH_LONG).show();
+                        try {
 
+                            Name = (String) response.getJSONObject().get("first_name");
+                            FEmail = (String) response.getJSONObject().get("email");
 
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        });
-                Profile profile = Profile.getCurrentProfile();
-                Log.i("FB", profile.getName());
-                User tmp = new User();
-                tmp.setUser(profile.getName());
-                tmp.setMail(FEmail);
-                db.addOnceBySocial(tmp);
+                            Log.v("FACEBOOK", Name);
+                            Log.v("FACEBOOK", FEmail);
+
+                            User tmp = new User();
+                            tmp.setUser(Name);
+                            tmp.setMail(FEmail);
+                            db.addOnceBySocial(tmp);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Log.i("FACEBOOK", String.valueOf(response.getJSONObject()));
+                    }
+
+                });
+
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id, first_name, last_name, email,gender, birthday, location");
+                request.setParameters(parameters);
+                request.executeAsync();
+
                 startActivity(new Intent(LoginActivity.this, WelcomeActivity.class));
             }
 
@@ -272,9 +280,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void skipLogin(){
-        SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
-        boolean connected = sharedPref.getBoolean(KEEP_CONNECTED, false);
-        if (connected){
+        if (prefManager.isConnected()){
             // skip login
             startActivity(new Intent(LoginActivity.this, WelcomeActivity.class));
         }
@@ -360,15 +366,11 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void keepConnected(){
-        SharedPreferences sharedPref = LoginActivity.this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
         if (_chkConnected.isChecked()){
-            editor.putBoolean(KEEP_CONNECTED, true);
-            editor.apply();
+            prefManager.setKeepConnected(true);
         }
         else {
-            editor.putBoolean(KEEP_CONNECTED, false);
-            editor.apply();
+            prefManager.setKeepConnected(false);
         }
     }
 

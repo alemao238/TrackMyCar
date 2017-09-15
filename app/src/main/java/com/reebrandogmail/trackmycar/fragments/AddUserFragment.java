@@ -18,14 +18,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by renan.brando on 11/09/2017.
+ * Created by renan.brando on 15/09/2017.
  */
 
-public class EditUserFragment extends Fragment {
+public class AddUserFragment  extends Fragment {
 
-    @BindView(R.id.etName) EditText etUsername;
-    @BindView(R.id.etEmail) EditText etEmail;
-    @BindView(R.id.etPhone) EditText etPhone;
+    @BindView(R.id.etNameA) EditText etUsername;
+    @BindView(R.id.etEmailA) EditText etEmail;
+    @BindView(R.id.etPhoneA) EditText etPhone;
 
     User user;
     DBHandler db;
@@ -33,21 +33,14 @@ public class EditUserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.activity_edit_user_fragment, container, false);
+        View view = inflater.inflate(R.layout.activity_add_user_fragment, container, false);
         ButterKnife.bind(this, view);
 
         etPhone.addTextChangedListener(Mask.insert("(##)#####-####", etPhone));
 
         db = new DBHandler(getContext());
 
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            user  = db.getUser(bundle.getInt("user", 1));
-            etUsername.setText(user.getUser());
-            etEmail.setText(user.getMail());
-            if (!(user.getPhone() == null))
-                etPhone.setText(Mask.unmask(user.getPhone()));
-        }
+        user = new User();
 
         return view;
     }
@@ -65,8 +58,8 @@ public class EditUserFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.btnConfirm)
-    public void confirm(){
+    @OnClick(R.id.btnConfirmAddUser)
+    public void submitUser(){
         if (!isValidField(etUsername)){
             etUsername.setError("Invalid input");
         }
@@ -80,7 +73,7 @@ public class EditUserFragment extends Fragment {
             this.user.setUser(etUsername.getText().toString());
             this.user.setMail(etEmail.getText().toString());
             this.user.setPhone(etPhone.getText().toString());
-            db.updateUser(this.user);
+            db.addUser(this.user);
             goBack();
         }
 
