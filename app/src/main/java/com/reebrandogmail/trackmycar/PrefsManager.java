@@ -55,7 +55,7 @@ public class PrefsManager {
 
 
     public String getTrackerNumber(){
-        return defaultPref.getString(TRACKER, "");
+        return defaultPref.getString(TRACKER, "+5511953864738");
     }
 }
 
