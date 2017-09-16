@@ -11,82 +11,55 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.bumptech.glide.Glide;
 import com.reebrandogmail.trackmycar.R;
 import com.reebrandogmail.trackmycar.model.History;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+
 
 /**
- * Created by renan.brando on 15/09/2017.
+ * Created by Renan Ribeiro Brando on 15/08/16.
  */
-
-public class MapItemAdapter extends RecyclerView.Adapter<MapItemAdapter.MyViewHolder> implements OnMapReadyCallback {
+public class MapItemAdapter extends RecyclerView.Adapter<MapItemAdapter.MyViewHolder> {
 
     private Context mContext;
     private List<History> historiesList;
-    private HashSet<MapView> mapViews = new HashSet<>();
-    private GoogleMap googleMap;
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new
-                LatLng(51.0107214,6.9549693), 10));
-        googleMap.addMarker(new MarkerOptions()
-                .position(new LatLng(51.0107214, 6.9549693)));
-    }
-
-
-    public class MyViewHolder extends RecyclerView.ViewHolder{
-        public TextView title, count, thumbnail;
-        public ImageView overflow;
-        public  MapView mapView;
+    public class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView title, count;
+        public ImageView thumbnail, overflow;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title);
             count = (TextView) view.findViewById(R.id.count);
-            thumbnail = (TextView) view.findViewById(R.id.thumbnail);
+            thumbnail = (ImageView) view.findViewById(R.id.thumbnail);
             overflow = (ImageView) view.findViewById(R.id.overflow);
-            mapView = (MapView) view.findViewById(R.id.map_view);
-            //mapView = ((MapView) view.findViewById(R.id.map_view)).getMap();
-
         }
-
     }
 
 
     public MapItemAdapter(Context mContext, List<History> historiesList) {
         this.mContext = mContext;
         this.historiesList = historiesList;
-        //mapView.getMapAsync(this);
     }
-
-    public MapItemAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_card, parent, false);
-
-        return new MapItemAdapter.MyViewHolder(itemView);
-    }
-
 
     @Override
-    public void onBindViewHolder(final MapItemAdapter.MyViewHolder holder, int position) {
+    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.map_item_card, parent, false);
+
+        return new MyViewHolder(itemView);
+    }
+
+    @Override
+    public void onBindViewHolder(final MyViewHolder holder, int position) {
         History history = historiesList.get(position);
-        //holder.mapView.onCreate();
-        //holder.mapView.getMapAsync(this);
-        //holder.title.setText(history.getUser());
-        //holder.count.setText(user.getPhone() + " " + mContext.getString(R.string.granted));
-        //holder.thumbnail.setText(String.valueOf(user.getUser().charAt(0)));
+        holder.title.setText(history.getMapsURL());
+        holder.count.setText(history.getLatitude() + " " + history.getLongitude());
         // loading album cover using Glide library
-        //Glide.with(mContext).load(R.drawable.map).into(holder.thumbnail);
+        Glide.with(mContext).load(R.drawable.map_view).into(holder.thumbnail);
 
         holder.overflow.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +77,7 @@ public class MapItemAdapter extends RecyclerView.Adapter<MapItemAdapter.MyViewHo
         PopupMenu popup = new PopupMenu(mContext, view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.menu_item, popup.getMenu());
-        popup.setOnMenuItemClickListener(new MapItemAdapter.MyMenuItemClickListener());
+        popup.setOnMenuItemClickListener(new MyMenuItemClickListener());
         popup.show();
     }
 
